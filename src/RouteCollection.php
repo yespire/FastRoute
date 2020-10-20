@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace FastRoute;
 
-class RouteCollector
+class RouteCollection
 {
     /** @var RouteParser */
     protected $routeParser;
