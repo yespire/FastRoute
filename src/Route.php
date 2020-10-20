@@ -5,7 +5,7 @@ namespace FastRoute;
 
 use function preg_match;
 
-class Route
+class Route implements RouteInterface
 {
     /** @var string */
     public $httpMethod;
