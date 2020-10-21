@@ -65,7 +65,7 @@ abstract class DispatcherTest extends TestCase
         $result = $dispatcher->dispatch($method, $uri);
         self::assertArrayNotHasKey(
             1,
-             $result,
+            $result,
             'NOT_FOUND result must only contain a single element in the returned info array'
         );
         self::assertTrue($result->routeNotFound());

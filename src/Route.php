@@ -5,12 +5,12 @@ namespace FastRoute;
 
 use function preg_match;
 
-class Route implements RouteInterface
+class Route implements IRoute
 {
     /** @var string */
     public $httpMethod;
 
-    /** @var string */
+    /** @var ?string */
     public $regex;
 
     /** @var mixed[] */
@@ -19,15 +19,12 @@ class Route implements RouteInterface
     /** @var mixed */
     public $handler;
 
-    /** @var bool  */
+    /** @var bool */
     public $isStatic = false;
 
     /**
-     * @param string $httpMethod
-     * @param mixed $handler
-     * @param string $regex
+     * @param mixed   $handler
      * @param mixed[] $variables
-     * @param bool $isStatic
      */
     public function __construct(string $httpMethod, $handler, string $regex, array $variables, bool $isStatic = false)
     {
@@ -42,7 +39,6 @@ class Route implements RouteInterface
      * Tests whether this route matches the given string.
      *
      * @param string $string String
-     * @return bool
      */
     public function matches(string $string): bool
     {
@@ -63,9 +59,6 @@ class Route implements RouteInterface
         return $this->handler;
     }
 
-    /**
-     * @return string
-     */
     public function regex(): string
     {
         return $this->regex;
@@ -79,9 +72,6 @@ class Route implements RouteInterface
         return $this->variables;
     }
 
-    /**
-     * @return bool
-     */
     public function isStatic(): bool
     {
         return $this->isStatic;

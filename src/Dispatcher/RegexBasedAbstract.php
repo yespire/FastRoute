@@ -24,14 +24,9 @@ abstract class RegexBasedAbstract implements Dispatcher
 
     /**
      * @param mixed[] $routeData
-     * @param string $uri
-     * @return \FastRoute\Result
      */
     abstract protected function dispatchVariableRoute(array $routeData, string $uri): Result;
 
-    /**
-     * {@inheritDoc}
-     */
     public function dispatch(string $httpMethod, string $uri): Result
     {
         if (isset($this->staticRouteMap[$httpMethod][$uri])) {
@@ -104,7 +99,7 @@ abstract class RegexBasedAbstract implements Dispatcher
 
         // If there are no allowed methods the route simply does not exist
         if ($allowedMethods !== []) {
-            return Result::fromArray([self::METHOD_NOT_ALLOWED, $allowedMethods]);
+            return Result::createMethodNotAllowed($allowedMethods);
         }
 
         return Result::createNotFound();

@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace FastRoute;
 
-interface RouteInterface
+interface IRoute
 {
     /**
      * Tests whether this route matches the given string.
-     *
-     * @param string $string
      */
     public function matches(string $string): bool;
 

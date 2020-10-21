@@ -15,10 +15,6 @@ interface Dispatcher
      *     [self::NOT_FOUND]
      *     [self::METHOD_NOT_ALLOWED, ['GET', 'OTHER_ALLOWED_METHODS']]
      *     [self::FOUND, $handler, ['varName' => 'value', ...]]
-     *
-     * @param string $httpMethod
-     * @param string $uri
-     * @return \FastRoute\Result
      */
     public function dispatch(string $httpMethod, string $uri): Result;
 }

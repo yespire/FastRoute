@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace FastRoute;
 
 use ArrayAccess;
+use RuntimeException;
 
 /**
  * Result Object
@@ -14,32 +15,31 @@ class Result implements ArrayAccess
     public const FOUND = 1;
     public const METHOD_NOT_ALLOWED = 2;
 
-    /* @var bool */
+    /** @var bool */
     protected $matched = false;
 
-    /* @var \FastRoute\Route */
+    /** @var Route */
     protected $route;
 
-    /* @var array */
+    /** @var mixed[] */
     protected $result = [];
 
-    /* @var int */
+    /** @var int */
     protected $status = self::NOT_FOUND;
 
-    /* @var mixed */
+    /** @var mixed */
     protected $handler;
 
-    /* @var array */
+    /** @var mixed[] */
     protected $args = [];
 
     /**
-     * @param \FastRoute\RouteInterface $route
      * @return $this
      */
-    public static function createFound(RouteInterface $route): self
+    public static function createFound(IRoute $route): self
     {
         $self = new self();
-        $self->status = static::FOUND;
+        $self->status = self::FOUND;
         $self->route = $route;
         $self->handler = $route->handler();
 
@@ -52,14 +52,30 @@ class Result implements ArrayAccess
     public static function createNotFound()
     {
         $self = new self();
-        $self->result = [static::NOT_FOUND];
-        $self->status = static::NOT_FOUND;
+        $self->result = [self::NOT_FOUND];
+        $self->status = self::NOT_FOUND;
 
         return $self;
     }
 
     /**
-     * @param array $result Result
+     * @param string[] $allowedMethods
+     *
+     * @return $this
+     */
+    public static function createMethodNotAllowed(array $allowedMethods)
+    {
+        $self = new self();
+        $self->result = [self::METHOD_NOT_ALLOWED, $allowedMethods];
+        $self->status = self::METHOD_NOT_ALLOWED;
+        $self->allowedMethods = $allowedMethods;
+
+        return $self;
+    }
+
+    /**
+     * @param mixed[] $result Result
+     *
      * @return $this
      */
     public static function fromArray(array $result): self
@@ -68,7 +84,7 @@ class Result implements ArrayAccess
         $self->result = $result;
         $self->status = $result[0];
 
-        if ($result[0] === static::FOUND) {
+        if ($result[0] === self::FOUND) {
             $self->handler = $result[1];
             $self->args = $result[2];
             $self->route = $result[3];
@@ -82,7 +98,7 @@ class Result implements ArrayAccess
      */
     public function handler()
     {
-        if (!isset($this->result[1])) {
+        if (! isset($this->result[1])) {
             return null;
         }
 
@@ -94,32 +110,23 @@ class Result implements ArrayAccess
      */
     public function args()
     {
-        if (!isset($this->result[2])) {
+        if (! isset($this->result[2])) {
             return [];
         }
 
         return $this->result[2];
     }
 
-    /**
-     * @return bool
-     */
     public function routeMatched(): bool
     {
         return $this->result[0] === self::FOUND;
     }
 
-    /**
-     * @return bool
-     */
     public function methodNotAllowed(): bool
     {
         return $this->result[0] === self::METHOD_NOT_ALLOWED;
     }
 
-    /**
-     * @return bool
-     */
     public function routeNotFound(): bool
     {
         return $this->result[0] === self::NOT_FOUND;
@@ -146,7 +153,7 @@ class Result implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        throw new \RuntimeException(
+        throw new RuntimeException(
             'You can\'t mutate the state of the result'
         );
     }
@@ -156,7 +163,7 @@ class Result implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        throw new \RuntimeException(
+        throw new RuntimeException(
             'You can\'t mutate the state of the result'
         );
     }
