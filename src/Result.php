@@ -18,7 +18,7 @@ class Result implements ArrayAccess
     /** @var bool */
     protected $matched = false;
 
-    /** @var Route */
+    /** @var IRoute */
     protected $route;
 
     /** @var mixed[] */
@@ -33,8 +33,11 @@ class Result implements ArrayAccess
     /** @var mixed[] */
     protected $args = [];
 
+    /** @var string[] */
+    protected $allowedMethods = [];
+
     /**
-     * @return $this
+     * @return $this(FastRoute\Result)
      */
     public static function createFound(IRoute $route): self
     {
@@ -47,9 +50,9 @@ class Result implements ArrayAccess
     }
 
     /**
-     * @return $this
+     * @return $this(FastRoute\Result)
      */
-    public static function createNotFound()
+    public static function createNotFound(): self
     {
         $self = new self();
         $self->result = [self::NOT_FOUND];
@@ -61,9 +64,9 @@ class Result implements ArrayAccess
     /**
      * @param string[] $allowedMethods
      *
-     * @return $this
+     * @return $this(FastRoute\Result)
      */
-    public static function createMethodNotAllowed(array $allowedMethods)
+    public static function createMethodNotAllowed(array $allowedMethods): self
     {
         $self = new self();
         $self->result = [self::METHOD_NOT_ALLOWED, $allowedMethods];
@@ -76,7 +79,7 @@ class Result implements ArrayAccess
     /**
      * @param mixed[] $result Result
      *
-     * @return $this
+     * @return $this(FastRoute\Result)
      */
     public static function fromArray(array $result): self
     {
@@ -133,7 +136,8 @@ class Result implements ArrayAccess
     }
 
     /**
-     * @inheritDoc
+     * @param mixed $offset
+     * @return bool
      */
     public function offsetExists($offset)
     {
@@ -141,7 +145,8 @@ class Result implements ArrayAccess
     }
 
     /**
-     * @inheritDoc
+     * @param mixed $offset
+     * @return mixed
      */
     public function offsetGet($offset)
     {
@@ -149,7 +154,9 @@ class Result implements ArrayAccess
     }
 
     /**
-     * @inheritDoc
+     * @param mixed $offset
+     * @param mixed $value
+     * @return void
      */
     public function offsetSet($offset, $value)
     {
@@ -159,7 +166,8 @@ class Result implements ArrayAccess
     }
 
     /**
-     * @inheritDoc
+     * @param mixed $offset
+     * @return void
      */
     public function offsetUnset($offset)
     {
