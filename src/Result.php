@@ -10,107 +10,154 @@ use ArrayAccess;
  */
 class Result implements ArrayAccess
 {
-	public const NOT_FOUND = 0;
-	public const FOUND = 1;
-	public const METHOD_NOT_ALLOWED = 2;
+    public const NOT_FOUND = 0;
+    public const FOUND = 1;
+    public const METHOD_NOT_ALLOWED = 2;
 
-	protected $matched = false;
-	protected $route;
-	protected $result = [];
+    /* @var bool */
+    protected $matched = false;
 
-	/**
-	 * @param array $result Result
-	 * @return $this
-	 */
-	public static function fromArray(array $result)
-	{
-		$self = new self();
-		$self->result = $result;
+    /* @var \FastRoute\Route */
+    protected $route;
 
-		return $self;
-	}
+    /* @var array */
+    protected $result = [];
 
-	/**
-	 * @return bool
-	 */
-	public function handler()
-	{
-		if (!isset($this->result[1])) {
-			return null;
-		}
+    /* @var int */
+    protected $status = self::NOT_FOUND;
 
-		return $this->result[1];
-	}
+    /* @var mixed */
+    protected $handler;
 
-	/**
-	 * @return mixed
-	 */
-	public function args()
-	{
-		if (!isset($this->result[2])) {
-			return [];
-		}
+    /* @var array */
+    protected $args = [];
 
-		return $this->result[2];
-	}
+    /**
+     * @param \FastRoute\RouteInterface $route
+     * @return $this
+     */
+    public static function createFound(RouteInterface $route): self
+    {
+        $self = new self();
+        $self->status = static::FOUND;
+        $self->route = $route;
+        $self->handler = $route->handler();
 
-	/**
-	 * @return bool
-	 */
-	public function routeMatched(): bool
-	{
-		return $this->result[0] === self::FOUND;
-	}
+        return $self;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function methodNotAllowed(): bool
-	{
-		return $this->result[0] === self::METHOD_NOT_ALLOWED;
-	}
+    /**
+     * @return $this
+     */
+    public static function createNotFound()
+    {
+        $self = new self();
+        $self->result = [static::NOT_FOUND];
+        $self->status = static::NOT_FOUND;
 
-	/**
-	 * @return bool
-	 */
-	public function routeNotFound(): bool
-	{
-		return $this->result[0] === self::NOT_FOUND;
-	}
+        return $self;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function offsetExists($offset)
-	{
-		return isset($this->result[$offset]);
-	}
+    /**
+     * @param array $result Result
+     * @return $this
+     */
+    public static function fromArray(array $result): self
+    {
+        $self = new self();
+        $self->result = $result;
+        $self->status = $result[0];
 
-	/**
-	 * @inheritDoc
-	 */
-	public function offsetGet($offset)
-	{
-		return $this->result[$offset];
-	}
+        if ($result[0] === static::FOUND) {
+            $self->handler = $result[1];
+            $self->args = $result[2];
+            $self->route = $result[3];
+        }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function offsetSet($offset, $value)
-	{
-		throw new \RuntimeException(
-			'You ca\'t mutate the state of the result'
-		);
-	}
+        return $self;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function offsetUnset($offset)
-	{
-		throw new \RuntimeException(
-			'You ca\'t mutate the state of the result'
-		);
-	}
+    /**
+     * @return mixed
+     */
+    public function handler()
+    {
+        if (!isset($this->result[1])) {
+            return null;
+        }
+
+        return $this->result[1];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function args()
+    {
+        if (!isset($this->result[2])) {
+            return [];
+        }
+
+        return $this->result[2];
+    }
+
+    /**
+     * @return bool
+     */
+    public function routeMatched(): bool
+    {
+        return $this->result[0] === self::FOUND;
+    }
+
+    /**
+     * @return bool
+     */
+    public function methodNotAllowed(): bool
+    {
+        return $this->result[0] === self::METHOD_NOT_ALLOWED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function routeNotFound(): bool
+    {
+        return $this->result[0] === self::NOT_FOUND;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->result[$offset]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetGet($offset)
+    {
+        return $this->result[$offset];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetSet($offset, $value)
+    {
+        throw new \RuntimeException(
+            'You can\'t mutate the state of the result'
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetUnset($offset)
+    {
+        throw new \RuntimeException(
+            'You can\'t mutate the state of the result'
+        );
+    }
 }
