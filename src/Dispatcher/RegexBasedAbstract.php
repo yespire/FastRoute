@@ -24,7 +24,7 @@ abstract class RegexBasedAbstract implements Dispatcher
 
     /**
      * @param mixed[] $routeData
-     *
+     * @param string $uri
      * @return \FastRoute\Result
      */
     abstract protected function dispatchVariableRoute(array $routeData, string $uri): Result;
@@ -35,9 +35,9 @@ abstract class RegexBasedAbstract implements Dispatcher
     public function dispatch(string $httpMethod, string $uri): Result
     {
         if (isset($this->staticRouteMap[$httpMethod][$uri])) {
-            $handler = $this->staticRouteMap[$httpMethod][$uri];
+            $route = $this->staticRouteMap[$httpMethod][$uri];
 
-            return Result::fromArray([self::FOUND, $handler, []]);
+            return Result::fromArray([self::FOUND, $route->handler(), [], $route]);
         }
 
         $varRouteData = $this->variableRouteData;
@@ -51,9 +51,9 @@ abstract class RegexBasedAbstract implements Dispatcher
         // For HEAD requests, attempt fallback to GET
         if ($httpMethod === 'HEAD') {
             if (isset($this->staticRouteMap['GET'][$uri])) {
-                $handler = $this->staticRouteMap['GET'][$uri];
+                $route = $this->staticRouteMap['GET'][$uri];
 
-                return Result::fromArray([self::FOUND, $handler, []]);
+                return Result::fromArray([self::FOUND, $route->handler(), [], $route]);
             }
 
             if (isset($varRouteData['GET'])) {
@@ -66,9 +66,9 @@ abstract class RegexBasedAbstract implements Dispatcher
 
         // If nothing else matches, try fallback routes
         if (isset($this->staticRouteMap['*'][$uri])) {
-            $handler = $this->staticRouteMap['*'][$uri];
+            $route = $this->staticRouteMap['*'][$uri];
 
-            return Result::fromArray([self::FOUND, $handler, []]);
+            return Result::fromArray([self::FOUND, $route->handler(), [], $route]);
         }
 
         if (isset($varRouteData['*'])) {
@@ -107,6 +107,6 @@ abstract class RegexBasedAbstract implements Dispatcher
             return Result::fromArray([self::METHOD_NOT_ALLOWED, $allowedMethods]);
         }
 
-        return Result::fromArray([self::NOT_FOUND]);
+        return Result::createNotFound();
     }
 }

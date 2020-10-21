@@ -18,7 +18,7 @@ class MarkBased extends RegexBasedAbstract
                 continue;
             }
 
-            [$handler, $varNames] = $data['routeMap'][$matches['MARK']];
+            [$handler, $varNames, $route] = $data['routeMap'][$matches['MARK']];
 
             $vars = [];
             $i = 0;
@@ -26,9 +26,9 @@ class MarkBased extends RegexBasedAbstract
                 $vars[$varName] = $matches[++$i];
             }
 
-            return Result::fromArray([self::FOUND, $handler, $vars]);
+            return Result::fromArray([self::FOUND, $handler, $vars, $route]);
         }
 
-        return Result::fromArray([self::NOT_FOUND]);
+        return Result::createNotFound();
     }
 }

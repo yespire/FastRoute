@@ -19,7 +19,7 @@ class CharCountBased extends RegexBasedAbstract
                 continue;
             }
 
-            [$handler, $varNames] = $data['routeMap'][end($matches)];
+            [$handler, $varNames, $route] = $data['routeMap'][end($matches)];
 
             $vars = [];
             $i = 0;
@@ -27,9 +27,9 @@ class CharCountBased extends RegexBasedAbstract
                 $vars[$varName] = $matches[++$i];
             }
 
-            return Result::fromArray([self::FOUND, $handler, $vars]);
+            return Result::fromArray([self::FOUND, $handler, $vars, $route]);
         }
 
-        return Result::fromArray([self::NOT_FOUND]);
+        return Result::createNotFound();
     }
 }
