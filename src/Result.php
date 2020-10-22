@@ -8,6 +8,8 @@ use RuntimeException;
 
 /**
  * Result Object
+ *
+ * @implements ArrayAccess<int, mixed>
  */
 class Result implements ArrayAccess
 {
@@ -36,10 +38,7 @@ class Result implements ArrayAccess
     /** @var string[] */
     protected $allowedMethods = [];
 
-    /**
-     * @return $this(FastRoute\Result)
-     */
-    public static function createFound(IRoute $route): self
+    public static function createFound(IRoute $route): Result
     {
         $self = new self();
         $self->status = self::FOUND;
@@ -49,10 +48,7 @@ class Result implements ArrayAccess
         return $self;
     }
 
-    /**
-     * @return $this(FastRoute\Result)
-     */
-    public static function createNotFound(): self
+    public static function createNotFound(): Result
     {
         $self = new self();
         $self->result = [self::NOT_FOUND];
@@ -63,10 +59,8 @@ class Result implements ArrayAccess
 
     /**
      * @param string[] $allowedMethods
-     *
-     * @return $this(FastRoute\Result)
      */
-    public static function createMethodNotAllowed(array $allowedMethods): self
+    public static function createMethodNotAllowed(array $allowedMethods): Result
     {
         $self = new self();
         $self->result = [self::METHOD_NOT_ALLOWED, $allowedMethods];
@@ -78,10 +72,8 @@ class Result implements ArrayAccess
 
     /**
      * @param mixed[] $result Result
-     *
-     * @return $this(FastRoute\Result)
      */
-    public static function fromArray(array $result): self
+    public static function fromArray(array $result): Result
     {
         $self = new self();
         $self->result = $result;
@@ -106,6 +98,11 @@ class Result implements ArrayAccess
         }
 
         return $this->result[1];
+    }
+
+    public function status(): int
+    {
+        return $this->status;
     }
 
     /**
@@ -137,15 +134,15 @@ class Result implements ArrayAccess
 
     /**
      * @param mixed $offset
-     * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->result[$offset]);
     }
 
     /**
      * @param mixed $offset
+     *
      * @return mixed
      */
     public function offsetGet($offset)
@@ -156,9 +153,8 @@ class Result implements ArrayAccess
     /**
      * @param mixed $offset
      * @param mixed $value
-     * @return void
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         throw new RuntimeException(
             'You can\'t mutate the state of the result'
@@ -167,12 +163,21 @@ class Result implements ArrayAccess
 
     /**
      * @param mixed $offset
-     * @return void
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         throw new RuntimeException(
             'You can\'t mutate the state of the result'
         );
+    }
+
+    /**
+     * Gets the legacy array
+     *
+     * @return mixed[]
+     */
+    public function toArray(): array
+    {
+        return $this->result;
     }
 }
