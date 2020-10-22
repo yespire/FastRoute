@@ -7,7 +7,7 @@ parameters:
 
     ignoreErrors:
         # We don't really want to call the constructor here, so this is fine
-        - '#FastRoute\\Test\\DummyRouteCollector::__construct\(\) does not call parent constructor#'
+        - '#FastRoute\\Test\\DummyRouteCollection::__construct\(\) does not call parent constructor#'
 
         # These are false-positives
         -

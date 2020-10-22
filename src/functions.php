@@ -22,14 +22,14 @@ if (! function_exists('FastRoute\simpleDispatcher')) {
             'routeParser' => RouteParser\Std::class,
             'dataGenerator' => DataGenerator\MarkBased::class,
             'dispatcher' => Dispatcher\MarkBased::class,
-            'routeCollector' => RouteCollector::class,
+            'routeCollector' => RouteCollection::class,
         ];
 
         $routeCollector = new $options['routeCollector'](
             new $options['routeParser'](),
             new $options['dataGenerator']()
         );
-        assert($routeCollector instanceof RouteCollector);
+        assert($routeCollector instanceof RouteCollection);
         $routeDefinitionCallback($routeCollector);
 
         return new $options['dispatcher']($routeCollector->getData());
@@ -44,7 +44,7 @@ if (! function_exists('FastRoute\simpleDispatcher')) {
             'routeParser' => RouteParser\Std::class,
             'dataGenerator' => DataGenerator\MarkBased::class,
             'dispatcher' => Dispatcher\MarkBased::class,
-            'routeCollector' => RouteCollector::class,
+            'routeCollector' => RouteCollection::class,
             'cacheDisabled' => false,
         ];
 
@@ -65,7 +65,7 @@ if (! function_exists('FastRoute\simpleDispatcher')) {
             new $options['routeParser'](),
             new $options['dataGenerator']()
         );
-        assert($routeCollector instanceof RouteCollector);
+        assert($routeCollector instanceof RouteCollection);
         $routeDefinitionCallback($routeCollector);
 
         $dispatchData = $routeCollector->getData();
