@@ -10,7 +10,7 @@ class Route implements IRoute
     /** @var string */
     public $httpMethod;
 
-    /** @var ?string */
+    /** @var string */
     public $regex;
 
     /** @var mixed[] */
@@ -38,7 +38,8 @@ class Route implements IRoute
     /**
      * Tests whether this route matches the given string.
      *
-     * @param string $string String
+     * @param string $string URI string to match
+     * @return bool
      */
     public function matches(string $string): bool
     {
