@@ -10,11 +10,9 @@ interface Dispatcher
     public const METHOD_NOT_ALLOWED = 2;
 
     /**
-     * Dispatches against the provided HTTP method verb and URI.
-     * Returns array with one of the following formats:
-     *     [self::NOT_FOUND]
-     *     [self::METHOD_NOT_ALLOWED, ['GET', 'OTHER_ALLOWED_METHODS']]
-     *     [self::FOUND, $handler, ['varName' => 'value', ...]]
+     * @param string $httpMethod HTTP Method
+     * @param string $uri URI
+     * @return \FastRoute\Result
      */
     public function dispatch(string $httpMethod, string $uri): Result;
 }
