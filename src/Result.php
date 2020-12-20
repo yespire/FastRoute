@@ -20,7 +20,7 @@ class Result implements ArrayAccess
     /** @var bool */
     protected $matched = false;
 
-    /** @var IRoute */
+    /** @var RouteInterface */
     protected $route;
 
     /** @var mixed[] */
@@ -38,7 +38,7 @@ class Result implements ArrayAccess
     /** @var string[] */
     protected $allowedMethods = [];
 
-    public static function createFound(IRoute $route): Result
+    public static function createFound(RouteInterface $route): Result
     {
         $self = new self();
         $self->status = self::FOUND;

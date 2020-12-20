@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace FastRoute;
 
-interface IRoute
+interface RouteInterface
 {
     /**
      * Tests whether this route matches the given string.
