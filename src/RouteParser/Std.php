@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace FastRoute\RouteParser;
 
 use FastRoute\BadRouteException;
-use FastRoute\RouteParser;
+use FastRoute\RouteParserInterface;
+use const PREG_OFFSET_CAPTURE;
+use const PREG_SET_ORDER;
 use function count;
 use function preg_match;
 use function preg_match_all;
@@ -13,15 +15,13 @@ use function rtrim;
 use function strlen;
 use function substr;
 use function trim;
-use const PREG_OFFSET_CAPTURE;
-use const PREG_SET_ORDER;
 
 /**
  * Parses route strings of the following form:
  *
  * "/user/{name}[/{id:[0-9]+}]"
  */
-class Std implements RouteParser
+class Std implements RouteParserInterface
 {
     public const VARIABLE_REGEX = <<<'REGEX'
 \{

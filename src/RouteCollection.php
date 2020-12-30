@@ -5,7 +5,7 @@ namespace FastRoute;
 
 class RouteCollection
 {
-    /** @var RouteParser */
+    /** @var RouteParserInterface */
     protected $routeParser;
 
     /** @var DataGenerator */
@@ -14,7 +14,7 @@ class RouteCollection
     /** @var string */
     protected $currentGroupPrefix = '';
 
-    public function __construct(RouteParser $routeParser, DataGenerator $dataGenerator)
+    public function __construct(RouteParserInterface $routeParser, DataGenerator $dataGenerator)
     {
         $this->routeParser = $routeParser;
         $this->dataGenerator = $dataGenerator;

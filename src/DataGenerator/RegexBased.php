@@ -6,6 +6,7 @@ namespace FastRoute\DataGenerator;
 use FastRoute\BadRouteException;
 use FastRoute\DataGenerator;
 use FastRoute\Route;
+use FastRoute\RouteInterface;
 use function array_chunk;
 use function array_map;
 use function ceil;
@@ -26,14 +27,16 @@ class RegexBased implements DataGenerator
     /** @var Route[][] */
     protected $methodToRegexToRoutesMap = [];
 
-    /** @var \FastRoute\DataGenerator\ChunkProcessorInterface */
+    /** @var ChunkProcessorInterface */
     protected $chunkProcessor;
 
     public function __construct(?ChunkProcessorInterface $chunkProcessor = null)
     {
-        if ($chunkProcessor !== null) {
-            $this->chunkProcessor = $chunkProcessor;
+        if ($chunkProcessor === null) {
+            return;
         }
+
+        $this->chunkProcessor = $chunkProcessor;
     }
 
     protected function getApproxChunkSize(): int
@@ -47,7 +50,7 @@ class RegexBased implements DataGenerator
     }
 
     /**
-     * @param array<string, \FastRoute\RouteInterface> $regexToRoutesMap
+     * @param array<string, RouteInterface> $regexToRoutesMap
      *
      * @return mixed[]
      */

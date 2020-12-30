@@ -17,9 +17,6 @@ interface RouteInterface
      */
     public function handler();
 
-    /**
-     * @return string
-     */
     public function regex(): string;
 
     /**

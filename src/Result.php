@@ -180,7 +180,7 @@ class Result implements ArrayAccess
     {
         return [
             'handler' => $this->handler,
-            'route' => $this->route
+            'route' => $this->route,
         ];
     }
 }

@@ -39,7 +39,6 @@ class Route implements RouteInterface
      * Tests whether this route matches the given string.
      *
      * @param string $string URI string to match
-     * @return bool
      */
     public function matches(string $string): bool
     {
