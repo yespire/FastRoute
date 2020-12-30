@@ -10,6 +10,9 @@ use function str_repeat;
 
 class GroupCountProcessor implements ChunkProcessorInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getApproxChunkSize(): int
     {
         return 10;
@@ -24,11 +27,11 @@ class GroupCountProcessor implements ChunkProcessorInterface
         $regexes = [];
         $numGroups = 0;
         foreach ($regexToRoutesMap as $regex => $route) {
-            $numVariables = count($route->variables);
+            $numVariables = count($route->variables());
             $numGroups = max($numGroups, $numVariables);
 
             $regexes[] = $regex . str_repeat('()', $numGroups - $numVariables);
-            $routeMap[$numGroups + 1] = [$route->handler, $route->variables, $route];
+            $routeMap[$numGroups + 1] = [$route->handler(), $route->variables(), $route];
 
             ++$numGroups;
         }

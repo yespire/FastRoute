@@ -7,6 +7,9 @@ use function implode;
 
 class MarkBasedProcessor implements ChunkProcessorInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getApproxChunkSize(): int
     {
         return 30;
@@ -23,7 +26,7 @@ class MarkBasedProcessor implements ChunkProcessorInterface
 
         foreach ($regexToRoutesMap as $regex => $route) {
             $regexes[] = $regex . '(*MARK:' . $markName . ')';
-            $routeMap[$markName] = [$route->handler, $route->variables, $route];
+            $routeMap[$markName] = [$route->handler(), $route->variables(), $route];
 
             ++$markName;
         }

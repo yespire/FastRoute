@@ -24,6 +24,8 @@ abstract class RegexBasedAbstract implements Dispatcher
 
     /**
      * @param mixed[] $routeData
+     * @param string $uri
+     * @return \FastRoute\Result
      */
     abstract protected function dispatchVariableRoute(array $routeData, string $uri): Result;
 

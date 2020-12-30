@@ -8,6 +8,9 @@ use function implode;
 
 class GroupPosProcessor implements ChunkProcessorInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getApproxChunkSize(): int
     {
         return 10;
@@ -23,9 +26,9 @@ class GroupPosProcessor implements ChunkProcessorInterface
         $offset = 1;
         foreach ($regexToRoutesMap as $regex => $route) {
             $regexes[] = $regex;
-            $routeMap[$offset] = [$route->handler, $route->variables, $route];
+            $routeMap[$offset] = [$route->handler(), $route->variables(), $route];
 
-            $offset += count($route->variables);
+            $offset += count($route->variables());
         }
 
         $regex = '~^(?:' . implode('|', $regexes) . ')$~';

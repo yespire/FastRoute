@@ -8,6 +8,9 @@ namespace FastRoute\DataGenerator;
  */
 class CharCountBased extends RegexBasedAbstract
 {
+    /**
+     * {@inheritDoc}
+     */
     protected function getChunkProcessor(): ChunkProcessorInterface
     {
         if ($this->chunkProcessor === null) {

@@ -6,7 +6,7 @@ namespace FastRoute\DataGenerator;
 interface ChunkProcessorInterface
 {
     /**
-     * @param array<string, Route> $regexToRoutesMap
+     * @param array<string, \FastRoute\RouteInterface> $regexToRoutesMap
      *
      * @return mixed[]
      */

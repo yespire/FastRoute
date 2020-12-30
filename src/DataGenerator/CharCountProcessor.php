@@ -8,6 +8,9 @@ use function implode;
 
 class CharCountProcessor implements ChunkProcessorInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getApproxChunkSize(): int
     {
         return 30;
@@ -29,7 +32,7 @@ class CharCountProcessor implements ChunkProcessorInterface
             $suffix .= "\t";
 
             $regexes[] = '(?:' . $regex . '/(\t{' . $suffixLen . '})\t{' . ($count - $suffixLen) . '})';
-            $routeMap[$suffix] = [$route->handler, $route->variables, $route];
+            $routeMap[$suffix] = [$route->handler(), $route->variables(), $route];
         }
 
         $regex = '~^(?|' . implode('|', $regexes) . ')$~';

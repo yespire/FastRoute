@@ -8,6 +8,9 @@ namespace FastRoute\DataGenerator;
  */
 class GroupCountBased extends RegexBasedAbstract
 {
+    /**
+     * {@inheritDoc}
+     */
     protected function getChunkProcessor(): ChunkProcessorInterface
     {
         if ($this->chunkProcessor === null) {

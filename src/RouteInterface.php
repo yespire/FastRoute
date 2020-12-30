@@ -16,4 +16,14 @@ interface RouteInterface
      * @return mixed
      */
     public function handler();
+
+    /**
+     * @return string
+     */
+    public function regex(): string;
+
+    /**
+     * @return mixed[]
+     */
+    public function variables(): array;
 }
