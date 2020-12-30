@@ -178,6 +178,9 @@ class Result implements ArrayAccess
      */
     public function toArray(): array
     {
-        return $this->result;
+        return [
+            'handler' => $this->handler,
+            'route' => $this->route
+        ];
     }
 }
