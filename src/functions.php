@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FastRoute;
 
+use FastRoute\DataGenerator\MarkBasedProcessor;
 use LogicException;
 use RuntimeException;
 use function assert;
@@ -20,14 +21,14 @@ if (! function_exists('FastRoute\simpleDispatcher')) {
     {
         $options += [
             'routeParser' => RouteParser\Std::class,
-            'dataGenerator' => DataGenerator\MarkBased::class,
+            'dataGenerator' => new DataGenerator\RegexBased(new MarkBasedProcessor()),
             'dispatcher' => Dispatcher\MarkBased::class,
             'routeCollector' => RouteCollection::class,
         ];
 
         $routeCollector = new $options['routeCollector'](
-            new $options['routeParser'](),
-            new $options['dataGenerator']()
+            is_string($options['routeParser']) ? new $options['routeParser']() : $options['routeParser'],
+            is_string($options['dataGenerator']) ? new $options['dataGenerator']() : $options['dataGenerator']
         );
         assert($routeCollector instanceof RouteCollection);
         $routeDefinitionCallback($routeCollector);
@@ -42,7 +43,7 @@ if (! function_exists('FastRoute\simpleDispatcher')) {
     {
         $options += [
             'routeParser' => RouteParser\Std::class,
-            'dataGenerator' => DataGenerator\MarkBased::class,
+            'dataGenerator' => new DataGenerator\RegexBased(new MarkBasedProcessor()),
             'dispatcher' => Dispatcher\MarkBased::class,
             'routeCollector' => RouteCollection::class,
             'cacheDisabled' => false,
@@ -62,9 +63,10 @@ if (! function_exists('FastRoute\simpleDispatcher')) {
         }
 
         $routeCollector = new $options['routeCollector'](
-            new $options['routeParser'](),
-            new $options['dataGenerator']()
+            is_string($options['routeParser']) ? new $options['routeParser']() : $options['routeParser'],
+            is_string($options['dataGenerator']) ? new $options['dataGenerator']() : $options['dataGenerator']
         );
+
         assert($routeCollector instanceof RouteCollection);
         $routeDefinitionCallback($routeCollector);
 
