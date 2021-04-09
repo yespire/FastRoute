@@ -12,13 +12,17 @@ abstract class DispatcherTest extends TestCase
 {
     /**
      * Delegate dispatcher selection to child test classes
+     *
+     * @return mixed
      */
-    abstract protected function getDispatcherClass(): string;
+    abstract protected function getDispatcherClass();
 
     /**
      * Delegate dataGenerator selection to child test classes
+     *
+     * @return mixed
      */
-    abstract protected function getDataGeneratorClass(): string;
+    abstract protected function getDataGeneratorClass();
 
     /**
      * Set appropriate options for the specific Dispatcher class we're testing

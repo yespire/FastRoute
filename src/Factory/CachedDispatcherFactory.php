@@ -37,7 +37,7 @@ class CachedDispatcherFactory implements FactoryInterface
             throw new LogicException('Must specify "cacheFile" option');
         }
 
-        if (! $options['cacheDisabled'] && file_exists($options['cacheFile'])) {
+        if (! (bool) $options['cacheDisabled'] && file_exists($options['cacheFile'])) {
             $dispatchData = require $options['cacheFile'];
             if (! is_array($dispatchData)) {
                 throw new RuntimeException('Invalid cache file "' . $options['cacheFile'] . '"');
@@ -55,7 +55,7 @@ class CachedDispatcherFactory implements FactoryInterface
         $routeDefinitionCallback($routeCollector);
 
         $dispatchData = $routeCollector->getData();
-        if (! $options['cacheDisabled']) {
+        if (! (bool) $options['cacheDisabled']) {
             file_put_contents(
                 $options['cacheFile'],
                 '<?php return ' . var_export($dispatchData, true) . ';'

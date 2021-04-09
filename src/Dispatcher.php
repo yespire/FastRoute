@@ -3,15 +3,11 @@ declare(strict_types=1);
 
 namespace FastRoute;
 
-interface Dispatcher
-{
-    public const NOT_FOUND = 0;
-    public const FOUND = 1;
-    public const METHOD_NOT_ALLOWED = 2;
+use FastRoute\Dispatcher\DispatcherInterface;
 
-    /**
-     * @param string $httpMethod HTTP Method
-     * @param string $uri        URI
-     */
-    public function dispatch(string $httpMethod, string $uri): Result;
+/**
+ * Dispatcher
+ */
+interface Dispatcher extends DispatcherInterface
+{
 }

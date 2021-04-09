@@ -1,17 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace FastRoute;
+namespace FastRoute\Dispatcher;
 
-use ArrayAccess;
+use FastRoute\RouteInterface;
 use RuntimeException;
 
 /**
  * Result Object
- *
- * @implements ArrayAccess<int, mixed>
  */
-class Result implements ArrayAccess
+class Result implements ResultInterface
 {
     public const NOT_FOUND = 0;
     public const FOUND = 1;
@@ -20,7 +18,7 @@ class Result implements ArrayAccess
     /** @var bool */
     protected $matched = false;
 
-    /** @var RouteInterface */
+    /** @var RouteInterface|null */
     protected $route;
 
     /** @var mixed[] */
@@ -39,16 +37,25 @@ class Result implements ArrayAccess
     protected $allowedMethods = [];
 
     /**
-     * @inheritDoc
+     * @param mixed $handler
      */
+    public function __construct(
+        int $status = self::NOT_FOUND,
+        $handler = null,
+        ?RouteInterface $route = null
+    ) {
+        $this->status = $status;
+        $this->handler = $handler;
+        $this->route = $route;
+    }
+
     public static function createFound(RouteInterface $route): Result
     {
-        $self = new self();
-        $self->status = self::FOUND;
-        $self->route = $route;
-        $self->handler = $route->handler();
-
-        return $self;
+        return new self(
+            self::FOUND,
+            $route->handler(),
+            $route
+        );
     }
 
     public static function createNotFound(): Result
@@ -120,25 +127,16 @@ class Result implements ArrayAccess
         return $this->result[2];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function routeMatched(): bool
     {
         return $this->result[0] === self::FOUND;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function methodNotAllowed(): bool
     {
         return $this->result[0] === self::METHOD_NOT_ALLOWED;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function routeNotFound(): bool
     {
         return $this->result[0] === self::NOT_FOUND;
