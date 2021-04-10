@@ -21,7 +21,7 @@ use function trim;
  *
  * "/user/{name}[/{id:[0-9]+}]"
  */
-class Std implements RouteParserInterface
+class RouteParser implements RouteParserInterface
 {
     public const VARIABLE_REGEX = <<<'REGEX'
 \{

@@ -7,7 +7,7 @@ use FastRoute\DataGenerator\MarkBasedProcessor;
 use FastRoute\DataGenerator\RegexBased;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollection;
-use FastRoute\RouteParser\Std;
+use FastRoute\RouteParser\RouteParser;
 use function assert;
 use function is_string;
 
@@ -19,7 +19,7 @@ class SimpleDispatcherFactory implements FactoryInterface
     public static function make(callable $routeDefinitionCallback, array $options = []): Dispatcher
     {
         $options += [
-            'routeParser' => Std::class,
+            'routeParser' => RouteParser::class,
             'dataGenerator' => new RegexBased(new MarkBasedProcessor()),
             'dispatcher' => Dispatcher\MarkBased::class,
             'routeCollector' => RouteCollection::class,

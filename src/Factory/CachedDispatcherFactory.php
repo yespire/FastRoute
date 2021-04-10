@@ -8,7 +8,7 @@ use FastRoute\DataGenerator\RegexBased;
 use FastRoute\Dispatcher;
 use FastRoute\Dispatcher\MarkBased;
 use FastRoute\RouteCollection;
-use FastRoute\RouteParser\Std;
+use FastRoute\RouteParser\RouteParser;
 use LogicException;
 use RuntimeException;
 use function assert;
@@ -26,7 +26,7 @@ class CachedDispatcherFactory implements FactoryInterface
     public static function make(callable $routeDefinitionCallback, array $options = []): Dispatcher
     {
         $options += [
-            'routeParser' => Std::class,
+            'routeParser' => RouteParser::class,
             'dataGenerator' => new RegexBased(new MarkBasedProcessor()),
             'dispatcher' => MarkBased::class,
             'routeCollector' => RouteCollection::class,

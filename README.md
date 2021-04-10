@@ -276,7 +276,7 @@ through the options array:
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollection $r) {
     /* ... */
 }, [
-    'routeParser' => 'FastRoute\\RouteParser\\Std',
+    'routeParser' => 'FastRoute\\RouteParser\\RouteParser',
     'dataGenerator' => 'FastRoute\\DataGenerator\\MarkBased',
     'dispatcher' => 'FastRoute\\Dispatcher\\MarkBased',
 ]);

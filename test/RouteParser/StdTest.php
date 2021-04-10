@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace FastRoute\Test\RouteParser;
 
 use FastRoute\BadRouteException;
-use FastRoute\RouteParser\Std;
+use FastRoute\RouteParser\RouteParser;
 use PHPUnit\Framework\TestCase;
 
 class StdTest extends TestCase
@@ -16,7 +16,7 @@ class StdTest extends TestCase
      */
     public function testParse(string $routeString, array $expectedRouteDatas): void
     {
-        $parser = new Std();
+        $parser = new RouteParser();
         $routeDatas = $parser->parse($routeString);
         self::assertSame($expectedRouteDatas, $routeDatas);
     }
@@ -29,7 +29,7 @@ class StdTest extends TestCase
         $this->expectException(BadRouteException::class);
         $this->expectExceptionMessage($expectedExceptionMessage);
 
-        $parser = new Std();
+        $parser = new RouteParser();
         $parser->parse($routeString);
     }
 
