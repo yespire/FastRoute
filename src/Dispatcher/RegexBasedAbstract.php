@@ -3,19 +3,18 @@ declare(strict_types=1);
 
 namespace FastRoute\Dispatcher;
 
-use FastRoute\Dispatcher;
 use FastRoute\Result;
 
-abstract class RegexBasedAbstract implements Dispatcher
+abstract class RegexBasedAbstract implements DispatcherInterface
 {
     /** @var mixed[][] */
-    protected $staticRouteMap = [];
+    protected array $staticRouteMap = [];
 
     /** @var mixed[] */
-    protected $variableRouteData = [];
+    protected array $variableRouteData = [];
 
     /** @var ResultFactoryInterface */
-    protected $resultFactory;
+    protected ResultFactoryInterface $resultFactory;
 
     /**
      * @param mixed[] $data
@@ -33,6 +32,8 @@ abstract class RegexBasedAbstract implements Dispatcher
 
     /**
      * @param mixed[] $routeData
+     * @param string $uri
+     * @return \FastRoute\Result
      */
     abstract protected function dispatchVariableRoute(array $routeData, string $uri): Result;
 

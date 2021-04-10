@@ -5,7 +5,7 @@ namespace FastRoute\Factory;
 
 use FastRoute\DataGenerator\MarkBasedProcessor;
 use FastRoute\DataGenerator\RegexBased;
-use FastRoute\Dispatcher;
+use FastRoute\Dispatcher\DispatcherInterface;
 use FastRoute\Dispatcher\MarkBased;
 use FastRoute\RouteCollection;
 use FastRoute\RouteParser\RouteParser;
@@ -23,7 +23,7 @@ class CachedDispatcherFactory implements FactoryInterface
     /**
      * {@inheritDoc}
      */
-    public static function make(callable $routeDefinitionCallback, array $options = []): Dispatcher
+    public static function make(callable $routeDefinitionCallback, array $options = []): DispatcherInterface
     {
         $options += [
             'routeParser' => RouteParser::class,
