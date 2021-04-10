@@ -4,15 +4,21 @@ declare(strict_types=1);
 
 namespace FastRoute\Dispatcher;
 
-abstract class RegexBasedAbstract implements DispatcherInterface
+abstract class AbstractRegexBased implements DispatcherInterface
 {
-    /** @var mixed[][] */
+    /**
+     * @var mixed[][]
+     */
     protected array $staticRouteMap = [];
 
-    /** @var mixed[] */
+    /**
+     * @var mixed[]
+     */
     protected array $variableRouteData = [];
 
-    /** @var ResultFactoryInterface */
+    /**
+     * @var ResultFactoryInterface
+     */
     protected ResultFactoryInterface $resultFactory;
 
     /**

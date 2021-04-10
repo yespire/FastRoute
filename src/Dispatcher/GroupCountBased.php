@@ -7,7 +7,7 @@ namespace FastRoute\Dispatcher;
 use function count;
 use function preg_match;
 
-class GroupCountBased extends RegexBasedAbstract
+class GroupCountBased extends AbstractRegexBased
 {
     /**
      * {@inheritDoc}

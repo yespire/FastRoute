@@ -6,7 +6,7 @@ namespace FastRoute\Dispatcher;
 
 use function preg_match;
 
-class MarkBased extends RegexBasedAbstract
+class MarkBasedRegex extends AbstractRegexBased
 {
     /**
      * {@inheritDoc}

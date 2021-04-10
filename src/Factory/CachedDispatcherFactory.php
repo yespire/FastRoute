@@ -7,7 +7,7 @@ namespace FastRoute\Factory;
 use FastRoute\DataGenerator\MarkBasedProcessor;
 use FastRoute\DataGenerator\RegexBased;
 use FastRoute\Dispatcher\DispatcherInterface;
-use FastRoute\Dispatcher\MarkBased;
+use FastRoute\Dispatcher\MarkBasedRegex;
 use FastRoute\RouteCollection;
 use FastRoute\RouteParser\RouteParser;
 use LogicException;
@@ -30,7 +30,7 @@ class CachedDispatcherFactory implements FactoryInterface
         $options += [
             'routeParser' => RouteParser::class,
             'dataGenerator' => new RegexBased(new MarkBasedProcessor()),
-            'dispatcher' => MarkBased::class,
+            'dispatcher' => MarkBasedRegex::class,
             'routeCollector' => RouteCollection::class,
             'cacheDisabled' => false,
         ];
@@ -48,15 +48,15 @@ class CachedDispatcherFactory implements FactoryInterface
             return new $options['dispatcher']($dispatchData);
         }
 
-        $routeCollector = new $options['routeCollector'](
+        $routeCollection = new $options['routeCollector'](
             is_string($options['routeParser']) ? new $options['routeParser']() : $options['routeParser'],
             is_string($options['dataGenerator']) ? new $options['dataGenerator']() : $options['dataGenerator']
         );
 
-        assert($routeCollector instanceof RouteCollection);
-        $routeDefinitionCallback($routeCollector);
+        assert($routeCollection instanceof RouteCollection);
+        $routeDefinitionCallback($routeCollection);
 
-        $dispatchData = $routeCollector->getData();
+        $dispatchData = $routeCollection->getData();
         if (! (bool) $options['cacheDisabled']) {
             file_put_contents(
                 $options['cacheFile'],

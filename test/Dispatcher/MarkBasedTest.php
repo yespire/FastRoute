@@ -14,7 +14,7 @@ class MarkBasedTest extends DispatcherTest
      */
     protected function getDispatcherClass()
     {
-        return Dispatcher\MarkBased::class;
+        return Dispatcher\MarkBasedRegex::class;
     }
 
     /**

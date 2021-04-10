@@ -12,7 +12,6 @@ use PhpBench\Benchmark\Metadata\Annotations\Iterations;
 use PhpBench\Benchmark\Metadata\Annotations\ParamProviders;
 use PhpBench\Benchmark\Metadata\Annotations\Revs;
 use PhpBench\Benchmark\Metadata\Annotations\Warmup;
-use PHPUnit\Framework\Assert;
 
 /**
  * @Warmup(2)
@@ -43,7 +42,7 @@ abstract class Dispatching
         $this->dispatchers['mark'] = $this->createDispatcher(
             [
                 'dataGenerator' => new RegexBased(new DataGenerator\MarkBasedProcessor()),
-                'dispatcher' => Dispatcher\MarkBased::class,
+                'dispatcher' => Dispatcher\MarkBasedRegex::class,
             ]
         );
     }

@@ -278,7 +278,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollection $r) 
 }, [
     'routeParser' => 'FastRoute\\RouteParser\\RouteParser',
     'dataGenerator' => 'FastRoute\\DataGenerator\\MarkBased',
-    'dispatcher' => 'FastRoute\\Dispatcher\\MarkBased',
+    'dispatcher' => 'FastRoute\\Dispatcher\\MarkBasedRegex',
 ]);
 ```
 

@@ -6,7 +6,7 @@ namespace FastRoute\Dispatcher;
 
 use function preg_match;
 
-class GroupPosBased extends RegexBasedAbstract
+class GroupPosBased extends AbstractRegexBased
 {
     /**
      * {@inheritDoc}
