@@ -17,12 +17,13 @@ interface ResultFactoryInterface
     public function createResultFromArray(array $result): ResultInterface;
 
     /**
+     * @param array $allowedMethods
      * @return \FastRoute\Dispatcher\ResultInterface
      */
-    public function createNotFound(): ResultInterface;
+    public function createNotAllowed(array $allowedMethods): ResultInterface;
 
     /**
      * @return \FastRoute\Dispatcher\ResultInterface
      */
-    public function createNotAllowed(): ResultInterface;
+    public function createNotFound(): ResultInterface;
 }

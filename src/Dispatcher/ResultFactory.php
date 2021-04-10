@@ -18,7 +18,7 @@ class ResultFactory implements ResultFactoryInterface
     }
 
     /**
-     * @return \FastRoute\Dispatcher\ResultInterface
+     * @inheritDoc
      */
     public function createNotFound(): ResultInterface
     {
@@ -26,11 +26,11 @@ class ResultFactory implements ResultFactoryInterface
     }
 
     /**
-     * @return \FastRoute\Dispatcher\ResultInterface
+     * @inheritDoc
      */
-    public function createNotAllowed(): ResultInterface
+    public function createNotAllowed(array $allowedMethods): ResultInterface
     {
-        return new Result(ResultInterface::METHOD_NOT_ALLOWED);
+        return Result::createMethodNotAllowed($allowedMethods);
     }
 
     /**

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace FastRoute\Dispatcher;
 
+use FastRoute\RouteCollectionInterface;
+
 abstract class AbstractRegexBased implements DispatcherInterface
 {
     /**
@@ -22,13 +24,22 @@ abstract class AbstractRegexBased implements DispatcherInterface
     protected ResultFactoryInterface $resultFactory;
 
     /**
-     * @param mixed[] $data
+     * @param mixed[]|\FastRoute\RouteCollectionInterface $data
+     * @param \FastRoute\Dispatcher\ResultFactoryInterface|null $resultFactory
      */
-    public function __construct(array $data)
-    {
+    public function __construct(
+        $data,
+        ?ResultFactoryInterface $resultFactory = null
+    ) {
+        if ($data instanceof RouteCollectionInterface) {
+            $data = $data->getData();
+        }
+
         [$this->staticRouteMap, $this->variableRouteData] = $data;
 
-        if (isset($data['resultFactory'])) {
+        if ($resultFactory) {
+            $this->resultFactory = $resultFactory;
+        } elseif (isset($data['resultFactory'])) {
             $this->resultFactory = $data['resultFactory'];
         } else {
             $this->resultFactory = new ResultFactory();
@@ -51,7 +62,6 @@ abstract class AbstractRegexBased implements DispatcherInterface
             $route = $this->staticRouteMap[$httpMethod][$uri];
 
             return $this->resultFactory->createResultFromArray([self::FOUND, $route->handler(), [], $route]);
-            //return Result::fromArray([self::FOUND, $route->handler(), [], $route]);
         }
 
         $varRouteData = $this->variableRouteData;
@@ -122,7 +132,7 @@ abstract class AbstractRegexBased implements DispatcherInterface
 
         // If there are no allowed methods the route simply does not exist
         if ($allowedMethods !== []) {
-            return Result::createMethodNotAllowed($allowedMethods);
+            return $this->resultFactory->createNotAllowed($allowedMethods);
         }
 
         return $this->resultFactory->createNotFound();

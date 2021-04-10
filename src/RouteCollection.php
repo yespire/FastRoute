@@ -50,9 +50,9 @@ class RouteCollection implements RouteCollectionInterface
     public function addRoute($httpMethod, string $route, $handler): void
     {
         $route = $this->currentGroupPrefix . $route;
-        $routeDatas = $this->routeParser->parse($route);
+        $routingData = $this->routeParser->parse($route);
         foreach ((array) $httpMethod as $method) {
-            foreach ($routeDatas as $routeData) {
+            foreach ($routingData as $routeData) {
                 $this->dataGenerator->addRoute($method, $routeData, $handler);
             }
         }
@@ -69,7 +69,9 @@ class RouteCollection implements RouteCollectionInterface
     {
         $previousGroupPrefix = $this->currentGroupPrefix;
         $this->currentGroupPrefix = $previousGroupPrefix . $prefix;
+
         $callback($this);
+
         $this->currentGroupPrefix = $previousGroupPrefix;
     }
 
