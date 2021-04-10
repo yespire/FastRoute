@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace FastRoute\DataGenerator;
 
 use FastRoute\BadRouteException;
-use FastRoute\DataGenerator;
 use FastRoute\Route;
 use FastRoute\RouteInterface;
 use function array_chunk;
@@ -19,16 +18,16 @@ use function round;
 use function sprintf;
 use function strpos;
 
-class RegexBased implements DataGenerator
+class RegexBased implements DataGeneratorInterface
 {
     /** @var mixed[][] */
-    protected $staticRoutes = [];
+    protected array $staticRoutes = [];
 
     /** @var Route[][] */
-    protected $methodToRegexToRoutesMap = [];
+    protected array $methodToRegexToRoutesMap = [];
 
     /** @var ChunkProcessorInterface */
-    protected $chunkProcessor;
+    protected ChunkProcessorInterface $chunkProcessor;
 
     public function __construct(?ChunkProcessorInterface $chunkProcessor = null)
     {

@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace FastRoute\RouteParser;
 
 use FastRoute\BadRouteException;
-use FastRoute\RouteParserInterface;
 use const PREG_OFFSET_CAPTURE;
 use const PREG_SET_ORDER;
 use function count;

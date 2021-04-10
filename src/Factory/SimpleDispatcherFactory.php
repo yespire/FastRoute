@@ -6,6 +6,7 @@ namespace FastRoute\Factory;
 use FastRoute\DataGenerator\MarkBasedProcessor;
 use FastRoute\DataGenerator\RegexBased;
 use FastRoute\Dispatcher;
+use FastRoute\Dispatcher\MarkBased;
 use FastRoute\RouteCollection;
 use FastRoute\RouteParser\RouteParser;
 use function assert;
@@ -21,7 +22,7 @@ class SimpleDispatcherFactory implements FactoryInterface
         $options += [
             'routeParser' => RouteParser::class,
             'dataGenerator' => new RegexBased(new MarkBasedProcessor()),
-            'dispatcher' => Dispatcher\MarkBased::class,
+            'dispatcher' => MarkBased::class,
             'routeCollector' => RouteCollection::class,
         ];
 
@@ -29,6 +30,7 @@ class SimpleDispatcherFactory implements FactoryInterface
             is_string($options['routeParser']) ? new $options['routeParser']() : $options['routeParser'],
             is_string($options['dataGenerator']) ? new $options['dataGenerator']() : $options['dataGenerator']
         );
+
         assert($routeCollector instanceof RouteCollection);
         $routeDefinitionCallback($routeCollector);
 

@@ -3,24 +3,36 @@ declare(strict_types=1);
 
 namespace FastRoute;
 
+use FastRoute\DataGenerator\DataGeneratorInterface;
+use FastRoute\RouteParser\RouteParserInterface;
+
+/**
+ * Class RouteCollection
+ */
 class RouteCollection implements RouteCollectionInterface
 {
-    /** @var RouteParserInterface */
-    protected $routeParser;
-
-    /** @var DataGenerator */
-    protected $dataGenerator;
-
-    /** @var string */
-    protected $currentGroupPrefix = '';
+    /**
+     * @var RouteParserInterface
+     */
+    protected RouteParserInterface $routeParser;
 
     /**
-     * @param \FastRoute\RouteParserInterface $routeParser
-     * @param \FastRoute\DataGenerator $dataGenerator
+     * @var DataGeneratorInterface
+     */
+    protected DataGeneratorInterface $dataGenerator;
+
+    /**
+     * @var string
+     */
+    protected string $currentGroupPrefix = '';
+
+    /**
+     * @param RouteParserInterface $routeParser
+     * @param \FastRoute\DataGenerator\DataGeneratorInterface $dataGenerator
      */
     public function __construct(
         RouteParserInterface $routeParser,
-        DataGenerator $dataGenerator
+        DataGeneratorInterface $dataGenerator
     ) {
         $this->routeParser = $routeParser;
         $this->dataGenerator = $dataGenerator;

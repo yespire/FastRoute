@@ -26,7 +26,6 @@ interface RouteCollectionInterface
      * Adds a GET route to the collection
      * This is simply an alias of $this->addRoute('GET', $route, $handler)
      *
-     * @param string $route
      * @param mixed $handler
      */
     public function get(string $route, $handler): void;
@@ -35,7 +34,6 @@ interface RouteCollectionInterface
      * Adds a POST route to the collection
      * This is simply an alias of $this->addRoute('POST', $route, $handler)
      *
-     * @param string $route
      * @param mixed $handler
      */
     public function post(string $route, $handler): void;
@@ -44,7 +42,6 @@ interface RouteCollectionInterface
      * Adds a PUT route to the collection
      * This is simply an alias of $this->addRoute('PUT', $route, $handler)
      *
-     * @param string $route
      * @param mixed $handler
      */
     public function put(string $route, $handler): void;
@@ -53,7 +50,6 @@ interface RouteCollectionInterface
      * Adds a DELETE route to the collection
      * This is simply an alias of $this->addRoute('DELETE', $route, $handler)
      *
-     * @param string $route
      * @param mixed $handler
      */
     public function delete(string $route, $handler): void;
@@ -62,7 +58,6 @@ interface RouteCollectionInterface
      * Adds a PATCH route to the collection
      * This is simply an alias of $this->addRoute('PATCH', $route, $handler)
      *
-     * @param string $route
      * @param mixed $handler
      */
     public function patch(string $route, $handler): void;
@@ -71,7 +66,6 @@ interface RouteCollectionInterface
      * Adds a HEAD route to the collection
      * This is simply an alias of $this->addRoute('HEAD', $route, $handler)
      *
-     * @param string $route
      * @param mixed $handler
      */
     public function head(string $route, $handler): void;
@@ -80,7 +74,6 @@ interface RouteCollectionInterface
      * Adds an OPTIONS route to the collection
      * This is simply an alias of $this->addRoute('OPTIONS', $route, $handler)
      *
-     * @param string $route
      * @param mixed $handler
      */
     public function options(string $route, $handler): void;
