@@ -4,12 +4,21 @@ declare(strict_types=1);
 
 namespace FastRoute\Dispatcher;
 
+use FastRoute\RouteInterface;
+
 /**
  * Result Factory
  */
 interface ResultFactoryInterface
 {
-    public function createResult(): ResultInterface;
+    /**
+     * @inheritDoc
+     */
+    public function createResult(
+        int $status = ResultInterface::NOT_FOUND,
+        $handler = null,
+        ?RouteInterface $route = null
+    ): ResultInterface;
 
     /**
      * @param mixed[] $result
