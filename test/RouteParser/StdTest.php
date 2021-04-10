@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace FastRoute\Test\RouteParser;
 
-use FastRoute\BadRouteException;
+use FastRoute\Exception\BadRouteException;
 use FastRoute\RouteParser\RouteParser;
 use PHPUnit\Framework\TestCase;
 

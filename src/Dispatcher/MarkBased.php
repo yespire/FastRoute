@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace FastRoute\Dispatcher;
 
-use FastRoute\Result;
 use function preg_match;
 
 class MarkBased extends RegexBasedAbstract
@@ -11,10 +11,10 @@ class MarkBased extends RegexBasedAbstract
     /**
      * {@inheritDoc}
      */
-    protected function dispatchVariableRoute(array $routeData, string $uri): Result
+    protected function dispatchVariableRoute(array $routeData, string $uri): ResultInterface
     {
         foreach ($routeData as $data) {
-            if (! preg_match($data['regex'], $uri, $matches)) {
+            if (!preg_match($data['regex'], $uri, $matches)) {
                 continue;
             }
 
@@ -26,9 +26,9 @@ class MarkBased extends RegexBasedAbstract
                 $vars[$varName] = $matches[++$i];
             }
 
-            return Result::fromArray([self::FOUND, $handler, $vars, $route]);
+            return $this->resultFactory->createResultFromArray([self::FOUND, $handler, $vars, $route]);
         }
 
-        return Result::createNotFound();
+        return $this->resultFactory->createNotFound();
     }
 }

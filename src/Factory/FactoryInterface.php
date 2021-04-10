@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace FastRoute\Factory;
@@ -11,5 +12,5 @@ interface FactoryInterface
      * @param callable $routeDefinitionCallback Callback
      * @param mixed[]  $options                 Options
      */
-    public static function make(callable $routeDefinitionCallback, array $options = []): DispatcherInterface;
+    public static function create(callable $routeDefinitionCallback, array $options = []): DispatcherInterface;
 }

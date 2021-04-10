@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace FastRoute\Dispatcher;
 
-use FastRoute\Result;
 use function count;
 use function preg_match;
 
@@ -12,7 +12,7 @@ class GroupCountBased extends RegexBasedAbstract
     /**
      * {@inheritDoc}
      */
-    protected function dispatchVariableRoute(array $routeData, string $uri): Result
+    protected function dispatchVariableRoute(array $routeData, string $uri): ResultInterface
     {
         foreach ($routeData as $data) {
             if (! preg_match($data['regex'], $uri, $matches)) {
@@ -27,9 +27,9 @@ class GroupCountBased extends RegexBasedAbstract
                 $vars[$varName] = $matches[++$i];
             }
 
-            return Result::fromArray([self::FOUND, $handler, $vars, $route]);
+            return $this->resultFactory->createResultFromArray([self::FOUND, $handler, $vars, $route]);
         }
 
-        return Result::createNotFound();
+        return $this->resultFactory->createNotFound();
     }
 }

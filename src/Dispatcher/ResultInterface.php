@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace FastRoute\Dispatcher;
@@ -10,6 +11,10 @@ use ArrayAccess;
  */
 interface ResultInterface extends ArrayAccess
 {
+    public const NOT_FOUND = 0;
+    public const FOUND = 1;
+    public const METHOD_NOT_ALLOWED = 2;
+
     /**
      * @return mixed
      */

@@ -1,9 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace FastRoute\Dispatcher;
-
-use FastRoute\Result;
 
 interface DispatcherInterface
 {
@@ -15,5 +14,5 @@ interface DispatcherInterface
      * @param string $httpMethod HTTP Method
      * @param string $uri        URI
      */
-    public function dispatch(string $httpMethod, string $uri): Result;
+    public function dispatch(string $httpMethod, string $uri): ResultInterface;
 }

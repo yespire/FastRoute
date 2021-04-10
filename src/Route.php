@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace FastRoute;
@@ -7,24 +8,37 @@ use function preg_match;
 
 class Route implements RouteInterface
 {
-    /** @var string */
-    public $httpMethod;
-
-    /** @var string */
-    public $regex;
-
-    /** @var mixed[] */
-    public $variables;
-
-    /** @var mixed */
-    public $handler;
-
-    /** @var bool */
-    public $isStatic = false;
+    /**
+     * @var string
+     */
+    public string $httpMethod;
 
     /**
-     * @param mixed   $handler
+     * @var string
+     */
+    public string $regex;
+
+    /**
+     * @var mixed[]
+     */
+    public array $variables;
+
+    /**
+     * @var mixed
+     */
+    public $handler;
+
+    /**
+     * @var bool
+     */
+    public bool $isStatic = false;
+
+    /**
+     * @param string $httpMethod
+     * @param mixed $handler
+     * @param string $regex
      * @param mixed[] $variables
+     * @param bool $isStatic
      */
     public function __construct(string $httpMethod, $handler, string $regex, array $variables, bool $isStatic = false)
     {
@@ -72,6 +86,9 @@ class Route implements RouteInterface
         return $this->variables;
     }
 
+    /**
+     * @return bool
+     */
     public function isStatic(): bool
     {
         return $this->isStatic;

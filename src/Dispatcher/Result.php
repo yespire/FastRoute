@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace FastRoute\Dispatcher;
@@ -11,33 +12,31 @@ use RuntimeException;
  */
 class Result implements ResultInterface
 {
-    public const NOT_FOUND = 0;
-    public const FOUND = 1;
-    public const METHOD_NOT_ALLOWED = 2;
-
     /** @var bool */
-    protected $matched = false;
+    protected bool $matched = false;
 
     /** @var RouteInterface|null */
-    protected $route;
+    protected ?RouteInterface $route;
 
     /** @var mixed[] */
-    protected $result = [];
+    protected array $result = [];
 
     /** @var int */
-    protected $status = self::NOT_FOUND;
+    protected int $status = self::NOT_FOUND;
 
     /** @var mixed */
     protected $handler;
 
     /** @var mixed[] */
-    protected $args = [];
+    protected array $args = [];
 
     /** @var string[] */
-    protected $allowedMethods = [];
+    protected array $allowedMethods = [];
 
     /**
+     * @param int $status
      * @param mixed $handler
+     * @param \FastRoute\RouteInterface|null $route
      */
     public function __construct(
         int $status = self::NOT_FOUND,
@@ -47,6 +46,11 @@ class Result implements ResultInterface
         $this->status = $status;
         $this->handler = $handler;
         $this->route = $route;
+        $this->result = [
+            $status,
+            $handler,
+            $route
+        ];
     }
 
     public static function createFound(RouteInterface $route): Result

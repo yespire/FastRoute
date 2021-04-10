@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace FastRoute\RouteParser;
 
-use FastRoute\BadRouteException;
-use const PREG_OFFSET_CAPTURE;
-use const PREG_SET_ORDER;
+use FastRoute\Exception\BadRouteException;
 use function count;
 use function preg_match;
 use function preg_match_all;
@@ -14,6 +13,9 @@ use function rtrim;
 use function strlen;
 use function substr;
 use function trim;
+
+use const PREG_OFFSET_CAPTURE;
+use const PREG_SET_ORDER;
 
 /**
  * Parses route strings of the following form:
@@ -35,6 +37,7 @@ REGEX;
 
     /**
      * {@inheritDoc}
+     * @throws \FastRoute\Exception\BadRouteException
      */
     public function parse(string $route): array
     {

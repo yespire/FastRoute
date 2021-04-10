@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace FastRoute\Factory;
@@ -11,6 +12,7 @@ use FastRoute\RouteCollection;
 use FastRoute\RouteParser\RouteParser;
 use LogicException;
 use RuntimeException;
+
 use function assert;
 use function file_exists;
 use function file_put_contents;
@@ -23,7 +25,7 @@ class CachedDispatcherFactory implements FactoryInterface
     /**
      * {@inheritDoc}
      */
-    public static function make(callable $routeDefinitionCallback, array $options = []): DispatcherInterface
+    public static function create(callable $routeDefinitionCallback, array $options = []): DispatcherInterface
     {
         $options += [
             'routeParser' => RouteParser::class,

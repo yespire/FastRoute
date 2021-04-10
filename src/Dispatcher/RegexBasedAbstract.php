@@ -1,9 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace FastRoute\Dispatcher;
-
-use FastRoute\Result;
 
 abstract class RegexBasedAbstract implements DispatcherInterface
 {
@@ -33,19 +32,20 @@ abstract class RegexBasedAbstract implements DispatcherInterface
     /**
      * @param mixed[] $routeData
      * @param string $uri
-     * @return \FastRoute\Result
+     * @return \FastRoute\Dispatcher\ResultInterface
      */
-    abstract protected function dispatchVariableRoute(array $routeData, string $uri): Result;
+    abstract protected function dispatchVariableRoute(array $routeData, string $uri): ResultInterface;
 
     /**
      * @inheritDoc
      */
-    public function dispatch(string $httpMethod, string $uri): Result
+    public function dispatch(string $httpMethod, string $uri): ResultInterface
     {
         if (isset($this->staticRouteMap[$httpMethod][$uri])) {
             $route = $this->staticRouteMap[$httpMethod][$uri];
 
-            return Result::fromArray([self::FOUND, $route->handler(), [], $route]);
+            return $this->resultFactory->createResultFromArray([self::FOUND, $route->handler(), [], $route]);
+            //return Result::fromArray([self::FOUND, $route->handler(), [], $route]);
         }
 
         $varRouteData = $this->variableRouteData;
@@ -61,7 +61,9 @@ abstract class RegexBasedAbstract implements DispatcherInterface
             if (isset($this->staticRouteMap['GET'][$uri])) {
                 $route = $this->staticRouteMap['GET'][$uri];
 
-                return Result::fromArray([self::FOUND, $route->handler(), [], $route]);
+                return $this->resultFactory->createResultFromArray(
+                    [self::FOUND, $route->handler(), [], $route]
+                );
             }
 
             if (isset($varRouteData['GET'])) {
@@ -76,7 +78,9 @@ abstract class RegexBasedAbstract implements DispatcherInterface
         if (isset($this->staticRouteMap['*'][$uri])) {
             $route = $this->staticRouteMap['*'][$uri];
 
-            return Result::fromArray([self::FOUND, $route->handler(), [], $route]);
+            return $this->resultFactory->createResultFromArray(
+                [self::FOUND, $route->handler(), [], $route]
+            );
         }
 
         if (isset($varRouteData['*'])) {
@@ -115,6 +119,6 @@ abstract class RegexBasedAbstract implements DispatcherInterface
             return Result::createMethodNotAllowed($allowedMethods);
         }
 
-        return Result::createNotFound();
+        return $this->resultFactory->createNotFound();
     }
 }

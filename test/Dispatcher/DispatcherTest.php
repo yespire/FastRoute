@@ -1,11 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace FastRoute\Test\Dispatcher;
 
-use FastRoute\BadRouteException;
+use FastRoute\Exception\BadRouteException;
 use FastRoute\RouteCollection;
 use PHPUnit\Framework\TestCase;
+
 use function FastRoute\simpleDispatcher;
 
 abstract class DispatcherTest extends TestCase

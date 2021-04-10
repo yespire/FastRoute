@@ -1,11 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace FastRoute\DataGenerator;
 
-use FastRoute\BadRouteException;
+use FastRoute\Exception\BadRouteException;
 use FastRoute\Route;
 use FastRoute\RouteInterface;
+
 use function array_chunk;
 use function array_map;
 use function ceil;
