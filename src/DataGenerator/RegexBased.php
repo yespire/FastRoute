@@ -22,15 +22,24 @@ use function strpos;
 
 class RegexBased implements DataGeneratorInterface
 {
-    /** @var mixed[][] */
+    /**
+     * @var mixed[][]
+     */
     protected array $staticRoutes = [];
 
-    /** @var Route[][] */
+    /**
+     * @var Route[][]
+     */
     protected array $methodToRegexToRoutesMap = [];
 
-    /** @var ChunkProcessorInterface */
+    /**
+     * @var ChunkProcessorInterface
+     */
     protected ChunkProcessorInterface $chunkProcessor;
 
+    /**
+     * @param \FastRoute\DataGenerator\ChunkProcessorInterface|null $chunkProcessor
+     */
     public function __construct(?ChunkProcessorInterface $chunkProcessor = null)
     {
         if ($chunkProcessor === null) {
@@ -40,11 +49,17 @@ class RegexBased implements DataGeneratorInterface
         $this->chunkProcessor = $chunkProcessor;
     }
 
+    /**
+     * @return int
+     */
     protected function getApproxChunkSize(): int
     {
         return $this->getChunkProcessor()->getApproxChunkSize();
     }
 
+    /**
+     * @return \FastRoute\DataGenerator\ChunkProcessorInterface
+     */
     protected function getChunkProcessor(): ChunkProcessorInterface
     {
         return $this->chunkProcessor;
@@ -99,6 +114,10 @@ class RegexBased implements DataGeneratorInterface
         return $data;
     }
 
+    /**
+     * @param int $count
+     * @return int
+     */
     private function computeChunkSize(int $count): int
     {
         $numParts = max(1, round($count / $this->getApproxChunkSize()));
@@ -108,6 +127,7 @@ class RegexBased implements DataGeneratorInterface
 
     /**
      * @param array<int, mixed> $routeData
+     * @return bool
      */
     private function isStaticRoute(array $routeData): bool
     {
@@ -115,8 +135,10 @@ class RegexBased implements DataGeneratorInterface
     }
 
     /**
+     * @param string $httpMethod
      * @param array<int, mixed> $routeData
-     * @param mixed             $handler
+     * @param mixed $handler
+     * @throws \FastRoute\Exception\BadRouteException
      */
     private function addStaticRoute(string $httpMethod, array $routeData, $handler): void
     {
@@ -143,7 +165,13 @@ class RegexBased implements DataGeneratorInterface
             }
         }
 
-        $this->staticRoutes[$httpMethod][$routeStr] = new Route($httpMethod, $handler, $routeStr, [], true);
+        $this->staticRoutes[$httpMethod][$routeStr] = new Route(
+            $httpMethod,
+            $handler,
+            $routeStr,
+            [],
+            true
+        );
     }
 
     /**
