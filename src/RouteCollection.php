@@ -28,6 +28,11 @@ class RouteCollection implements RouteCollectionInterface
     protected string $currentGroupPrefix = '';
 
     /**
+     * @var array<string, \FastRoute\RouteInterface>
+     */
+    protected array $namedRoutes = [];
+
+    /**
      * @param RouteParserInterface $routeParser
      * @param \FastRoute\DataGenerator\DataGeneratorInterface $dataGenerator
      */
@@ -46,14 +51,18 @@ class RouteCollection implements RouteCollectionInterface
      * @param string|string[] $httpMethod
      * @param string $route
      * @param mixed $handler
+     * @param string|null $name
      */
-    public function addRoute($httpMethod, string $route, $handler): void
+    public function addRoute($httpMethod, string $route, $handler, ?string $name = null): void
     {
         $route = $this->currentGroupPrefix . $route;
         $routingData = $this->routeParser->parse($route);
         foreach ((array) $httpMethod as $method) {
             foreach ($routingData as $routeData) {
-                $this->dataGenerator->addRoute($method, $routeData, $handler);
+                $route = $this->dataGenerator->addRoute($method, $routeData, $handler, $name);
+                if ($route->name()) {
+                    $this->namedRoutes[$route->name()] = $route;
+                }
             }
         }
     }

@@ -40,8 +40,9 @@ class RegexBased implements DataGeneratorInterface
     /**
      * @param \FastRoute\DataGenerator\ChunkProcessorInterface|null $chunkProcessor
      */
-    public function __construct(?ChunkProcessorInterface $chunkProcessor = null)
-    {
+    public function __construct(
+        ?ChunkProcessorInterface $chunkProcessor = null
+    ) {
         if ($chunkProcessor === null) {
             return;
         }
@@ -78,13 +79,13 @@ class RegexBased implements DataGeneratorInterface
     /**
      * {@inheritDoc}
      */
-    public function addRoute(string $httpMethod, array $routeData, $handler): void
+    public function addRoute(string $httpMethod, array $routeData, $handler): RouteInterface
     {
         if ($this->isStaticRoute($routeData)) {
-            $this->addStaticRoute($httpMethod, $routeData, $handler);
-        } else {
-            $this->addVariableRoute($httpMethod, $routeData, $handler);
+            return $this->addStaticRoute($httpMethod, $routeData, $handler);
         }
+
+        return $this->addVariableRoute($httpMethod, $routeData, $handler);
     }
 
     /**
@@ -140,7 +141,7 @@ class RegexBased implements DataGeneratorInterface
      * @param mixed $handler
      * @throws \FastRoute\Exception\BadRouteException
      */
-    private function addStaticRoute(string $httpMethod, array $routeData, $handler): void
+    private function addStaticRoute(string $httpMethod, array $routeData, $handler): RouteInterface
     {
         $routeStr = $routeData[0];
 
@@ -172,13 +173,18 @@ class RegexBased implements DataGeneratorInterface
             [],
             true
         );
+
+        return $this->staticRoutes[$httpMethod][$routeStr];
     }
 
     /**
+     * @param string $httpMethod
      * @param array<int, mixed> $routeData
-     * @param mixed             $handler
+     * @param mixed $handler
+     * @return \FastRoute\RouteInterface
+     * @throws \FastRoute\Exception\BadRouteException
      */
-    private function addVariableRoute(string $httpMethod, array $routeData, $handler): void
+    private function addVariableRoute(string $httpMethod, array $routeData, $handler): RouteInterface
     {
         [$regex, $variables] = $this->buildRegexForRoute($routeData);
 
@@ -196,6 +202,8 @@ class RegexBased implements DataGeneratorInterface
             $regex,
             $variables
         );
+
+        return $this->methodToRegexToRoutesMap[$httpMethod][$regex];
     }
 
     /**
@@ -237,6 +245,10 @@ class RegexBased implements DataGeneratorInterface
         return [$regex, $variables];
     }
 
+    /**
+     * @param string $regex
+     * @return bool
+     */
     private function regexHasCapturingGroups(string $regex): bool
     {
         if (strpos($regex, '(') === false) {

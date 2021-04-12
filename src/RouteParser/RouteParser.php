@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FastRoute\RouteParser;
 
 use FastRoute\Exception\BadRouteException;
+
 use function count;
 use function preg_match;
 use function preg_match_all;
