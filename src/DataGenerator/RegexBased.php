@@ -6,6 +6,8 @@ namespace FastRoute\DataGenerator;
 
 use FastRoute\Exception\BadRouteException;
 use FastRoute\Route;
+use FastRoute\RouteFactory;
+use FastRoute\RouteFactoryInterface;
 use FastRoute\RouteInterface;
 
 use function array_chunk;
@@ -38,12 +40,23 @@ class RegexBased implements DataGeneratorInterface
     protected ChunkProcessorInterface $chunkProcessor;
 
     /**
+     * @var \FastRoute\RouteFactoryInterface
+     */
+    protected RouteFactoryInterface $routeFactory;
+
+    /**
      * @param \FastRoute\DataGenerator\ChunkProcessorInterface|null $chunkProcessor
+     * @param \FastRoute\RouteFactoryInterface|null $routeFactory
      */
     public function __construct(
-        ?ChunkProcessorInterface $chunkProcessor = null
+        ?ChunkProcessorInterface $chunkProcessor = null,
+        ?RouteFactoryInterface $routeFactory = null
     ) {
-        if ($chunkProcessor === null) {
+        if (!$routeFactory) {
+            $this->routeFactory = new RouteFactory();
+        }
+
+        if (!$chunkProcessor) {
             return;
         }
 
@@ -103,7 +116,7 @@ class RegexBased implements DataGeneratorInterface
     /**
      * @return mixed[]
      */
-    private function generateVariableRouteData(): array
+    protected function generateVariableRouteData(): array
     {
         $data = [];
         foreach ($this->methodToRegexToRoutesMap as $method => $regexToRoutesMap) {
@@ -119,7 +132,7 @@ class RegexBased implements DataGeneratorInterface
      * @param int $count
      * @return int
      */
-    private function computeChunkSize(int $count): int
+    protected function computeChunkSize(int $count): int
     {
         $numParts = max(1, round($count / $this->getApproxChunkSize()));
 
@@ -130,7 +143,7 @@ class RegexBased implements DataGeneratorInterface
      * @param array<int, mixed> $routeData
      * @return bool
      */
-    private function isStaticRoute(array $routeData): bool
+    protected function isStaticRoute(array $routeData): bool
     {
         return count($routeData) === 1 && is_string($routeData[0]);
     }
@@ -141,7 +154,7 @@ class RegexBased implements DataGeneratorInterface
      * @param mixed $handler
      * @throws \FastRoute\Exception\BadRouteException
      */
-    private function addStaticRoute(string $httpMethod, array $routeData, $handler): RouteInterface
+    protected function addStaticRoute(string $httpMethod, array $routeData, $handler): RouteInterface
     {
         $routeStr = $routeData[0];
 
@@ -166,7 +179,7 @@ class RegexBased implements DataGeneratorInterface
             }
         }
 
-        $this->staticRoutes[$httpMethod][$routeStr] = new Route(
+        $this->staticRoutes[$httpMethod][$routeStr] = $this->routeFactory->createRoute(
             $httpMethod,
             $handler,
             $routeStr,
@@ -184,7 +197,7 @@ class RegexBased implements DataGeneratorInterface
      * @return \FastRoute\RouteInterface
      * @throws \FastRoute\Exception\BadRouteException
      */
-    private function addVariableRoute(string $httpMethod, array $routeData, $handler): RouteInterface
+    protected function addVariableRoute(string $httpMethod, array $routeData, $handler): RouteInterface
     {
         [$regex, $variables] = $this->buildRegexForRoute($routeData);
 
@@ -196,7 +209,7 @@ class RegexBased implements DataGeneratorInterface
             ));
         }
 
-        $this->methodToRegexToRoutesMap[$httpMethod][$regex] = new Route(
+        $this->methodToRegexToRoutesMap[$httpMethod][$regex] = $this->routeFactory->createRoute(
             $httpMethod,
             $handler,
             $regex,
@@ -211,7 +224,7 @@ class RegexBased implements DataGeneratorInterface
      *
      * @return mixed[]
      */
-    private function buildRegexForRoute(array $routeData): array
+    protected function buildRegexForRoute(array $routeData): array
     {
         $regex = '';
         $variables = [];
@@ -249,7 +262,7 @@ class RegexBased implements DataGeneratorInterface
      * @param string $regex
      * @return bool
      */
-    private function regexHasCapturingGroups(string $regex): bool
+    protected function regexHasCapturingGroups(string $regex): bool
     {
         if (strpos($regex, '(') === false) {
             // Needs to have at least a ( to contain a capturing group

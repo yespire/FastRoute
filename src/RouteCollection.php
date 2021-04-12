@@ -68,6 +68,17 @@ class RouteCollection implements RouteCollectionInterface
     }
 
     /**
+     * Gets a route by name
+     *
+     * @param string $name
+     * @return \FastRoute\RouteInterface|null
+     */
+    public function getRouteByName(string $name): ?RouteInterface
+    {
+        return $this->namedRoutes[$name] ?? null;
+    }
+
+    /**
      * Create a route group with a common prefix.
      * All routes created in the passed callback will have the given group prefix prepended.
      *
