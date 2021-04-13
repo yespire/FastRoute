@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FastRoute\RouteParser;
 
-use FastRoute\Exception\BadRouteException;
+use FastRoute\Exception\OptionalSegmentException;
 
 use function count;
 use function preg_match;
@@ -38,7 +38,7 @@ REGEX;
 
     /**
      * {@inheritDoc}
-     * @throws \FastRoute\Exception\BadRouteException
+     * @throws \FastRoute\Exception\OptionalSegmentException
      */
     public function parse(string $route): array
     {
@@ -51,10 +51,10 @@ REGEX;
         if ($numOptionals !== count($segments) - 1) {
             // If there are any ] in the middle of the route, throw a more specific error message
             if (preg_match('~' . self::VARIABLE_REGEX . '(*SKIP)(*F) | \]~x', $routeWithoutClosingOptionals)) {
-                throw new BadRouteException('Optional segments can only occur at the end of a route');
+                throw new OptionalSegmentException('Optional segments can only occur at the end of a route');
             }
 
-            throw new BadRouteException("Number of opening '[' and closing ']' does not match");
+            throw new OptionalSegmentException("Number of opening '[' and closing ']' does not match");
         }
 
         $currentRoute = '';
@@ -62,7 +62,7 @@ REGEX;
 
         foreach ($segments as $n => $segment) {
             if ($segment === '' && $n !== 0) {
-                throw new BadRouteException('Empty optional part');
+                throw new OptionalSegmentException('Empty optional part');
             }
 
             $currentRoute .= $segment;

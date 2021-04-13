@@ -12,7 +12,9 @@ use function function_exists;
 
 if (!function_exists('FastRoute\simpleDispatcher')) {
     /**
+     * @param callable $routeDefinitionCallback
      * @param array<string, string> $options
+     * @return \FastRoute\Dispatcher\DispatcherInterface
      */
     function simpleDispatcher(callable $routeDefinitionCallback, array $options = []): DispatcherInterface
     {
@@ -20,7 +22,9 @@ if (!function_exists('FastRoute\simpleDispatcher')) {
     }
 
     /**
+     * @param callable $routeDefinitionCallback
      * @param array<string, string> $options
+     * @return \FastRoute\Dispatcher\DispatcherInterface
      */
     function cachedDispatcher(callable $routeDefinitionCallback, array $options = []): DispatcherInterface
     {
