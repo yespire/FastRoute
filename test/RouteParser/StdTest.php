@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FastRoute\Test\RouteParser;
 
-use FastRoute\Exception\BadRouteException;
+use FastRoute\Exception\OptionalSegmentException;
 use FastRoute\RouteParser\RouteParser;
 use PHPUnit\Framework\TestCase;
 
@@ -12,8 +12,9 @@ class StdTest extends TestCase
 {
     /**
      * @dataProvider provideTestParse
-     *
-     * @param array<string|string[]> $expectedRouteDatas
+     * @param string $routeString
+     * @param array $expectedRouteDatas
+     * @throws \FastRoute\Exception\OptionalSegmentException
      */
     public function testParse(string $routeString, array $expectedRouteDatas): void
     {
@@ -24,10 +25,13 @@ class StdTest extends TestCase
 
     /**
      * @dataProvider provideTestParseError
+     * @param string $routeString
+     * @param string $expectedExceptionMessage
+     * @throws \FastRoute\Exception\OptionalSegmentException
      */
     public function testParseError(string $routeString, string $expectedExceptionMessage): void
     {
-        $this->expectException(BadRouteException::class);
+        $this->expectException(OptionalSegmentException::class);
         $this->expectExceptionMessage($expectedExceptionMessage);
 
         $parser = new RouteParser();
