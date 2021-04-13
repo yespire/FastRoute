@@ -18,10 +18,29 @@ interface RouteInterface
      */
     public function handler();
 
+    /**
+     * @return string
+     */
     public function regex(): string;
 
     /**
      * @return mixed[]
      */
     public function variables(): array;
+
+    /**
+     * @return bool
+     */
+    public function isStatic(): bool;
+
+    /**
+     * @return string|null
+     */
+    public function name(): ?string;
+
+    /**
+     * @param string $name
+     * @return void
+     */
+    public function setName(string $name): void;
 }

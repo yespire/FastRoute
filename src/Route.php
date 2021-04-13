@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace FastRoute;
 
+use function in_array;
 use function preg_match;
+use function preg_match_all;
+use function str_replace;
 
-class Route implements RouteInterface
+class Route implements RouteInterface, ReverseRouteInterface
 {
     /**
      * @var string
@@ -49,6 +52,7 @@ class Route implements RouteInterface
      * @param string $regex
      * @param mixed[] $variables
      * @param bool $isStatic
+     * @param string|null $name
      */
     public function __construct(string $httpMethod, $handler, string $regex, array $variables, bool $isStatic = false, ?string $name = null)
     {
@@ -58,19 +62,6 @@ class Route implements RouteInterface
         $this->variables = $variables;
         $this->isStatic = $isStatic;
         $this->name = $name;
-    }
-
-    protected function optionalParts(string $string, array $optionalParts = [])
-    {
-        $optionalRegex = '/\[(.*)]/';
-        preg_match($optionalRegex, $string, $match);
-
-        if (isset($match[0])) {
-            $optionalParts[] = $match[1];
-            $optionalParts += $this->optionalParts($match[1], $optionalParts);
-        }
-
-        return $optionalParts;
     }
 
     /**
@@ -84,21 +75,13 @@ class Route implements RouteInterface
         }
 
         $link = $this->template;
-
-        $getVarName = function ($match) {
-            $string = substr($match, 1);
-            $string = substr($string, 0, -1);
-            $pieces = explode(':', $string);
-
-            return $pieces[0];
-        };
-
         $availableVars = array_keys($vars);
-        foreach ($this->optionalParts($this->template) as $optionalPart) {
+
+        foreach ($this->reverseOptionalParts($this->template) as $optionalPart) {
             $optionalVars = [];
             preg_match_all('/{([^}]*.?)}/', $this->template, $matches);
             foreach ($matches[0] as $match) {
-                $optionalVars[] = $getVarName($match);
+                $optionalVars[] = $this->getVarNamesFromRegex($match);
             }
 
             foreach ($optionalVars as $var) {
@@ -112,7 +95,7 @@ class Route implements RouteInterface
         preg_match_all('/{([^}]*.?)}/', $this->template, $matches);
 
         foreach ($matches[0] as $match) {
-            $name = $getVarName($match);
+            $name = $this->getVarNamesFromRegex($match);
 
             if (isset($vars[$name])) {
                 $link = str_replace($match, $vars[$name], $link);
@@ -143,6 +126,7 @@ class Route implements RouteInterface
      * Tests whether this route matches the given string.
      *
      * @param string $string URI string to match
+     * @return bool
      */
     public function matches(string $string): bool
     {
@@ -163,6 +147,9 @@ class Route implements RouteInterface
         return $this->handler;
     }
 
+    /**
+     * @return string
+     */
     public function regex(): string
     {
         return $this->regex;
@@ -182,5 +169,36 @@ class Route implements RouteInterface
     public function isStatic(): bool
     {
         return $this->isStatic;
+    }
+
+    /**
+     * @param string $string
+     * @param array $optionalParts
+     * @return array
+     */
+    protected function reverseOptionalParts(string $string, array $optionalParts = []): array
+    {
+        $optionalRegex = '/\[(.*)]/';
+        preg_match($optionalRegex, $string, $match);
+
+        if (isset($match[0])) {
+            $optionalParts[] = $match[1];
+            $optionalParts += $this->reverseOptionalParts($match[1], $optionalParts);
+        }
+
+        return $optionalParts;
+    }
+
+    /**
+     * @param string $match
+     * @return string
+     */
+    protected function getVarNamesFromRegex(string $match): string
+    {
+        $string = substr($match, 1);
+        $string = substr($string, 0, -1);
+        $pieces = explode(':', $string);
+
+        return $pieces[0];
     }
 }
