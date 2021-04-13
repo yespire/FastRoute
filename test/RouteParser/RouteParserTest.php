@@ -8,7 +8,7 @@ use FastRoute\Exception\OptionalSegmentException;
 use FastRoute\RouteParser\RouteParser;
 use PHPUnit\Framework\TestCase;
 
-class StdTest extends TestCase
+class RouteParserTest extends TestCase
 {
     /**
      * @dataProvider provideTestParse
