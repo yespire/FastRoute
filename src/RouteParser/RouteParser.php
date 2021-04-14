@@ -48,9 +48,9 @@ REGEX;
         // Split on [ while skipping placeholders
         $segments = preg_split('~' . self::VARIABLE_REGEX . '(*SKIP)(*F) | \[~x', $routeWithoutClosingOptionals);
 
-        if ($numOptionals !== count($segments) - 1) {
+        if ($numOptionals !== count((array)$segments) - 1) {
             // If there are any ] in the middle of the route, throw a more specific error message
-            if (preg_match('~' . self::VARIABLE_REGEX . '(*SKIP)(*F) | \]~x', $routeWithoutClosingOptionals)) {
+            if ((bool)preg_match('~' . self::VARIABLE_REGEX . '(*SKIP)(*F) | \]~x', $routeWithoutClosingOptionals)) {
                 throw new OptionalSegmentException('Optional segments can only occur at the end of a route');
             }
 
@@ -58,18 +58,18 @@ REGEX;
         }
 
         $currentRoute = '';
-        $routeDatas = [];
+        $routeData = [];
 
-        foreach ($segments as $n => $segment) {
+        foreach ((array)$segments as $n => $segment) {
             if ($segment === '' && $n !== 0) {
                 throw new OptionalSegmentException('Empty optional part');
             }
 
             $currentRoute .= $segment;
-            $routeDatas[] = $this->parsePlaceholders($currentRoute);
+            $routeData[] = $this->parsePlaceholders($currentRoute);
         }
 
-        return $routeDatas;
+        return $routeData;
     }
 
     /**
@@ -79,7 +79,7 @@ REGEX;
      */
     private function parsePlaceholders(string $route): array
     {
-        if (! preg_match_all('~' . self::VARIABLE_REGEX . '~x', $route, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER)) {
+        if ((bool)preg_match_all('~' . self::VARIABLE_REGEX . '~x', $route, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER) === false) {
             return [$route];
         }
 

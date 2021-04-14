@@ -13,7 +13,7 @@ use function function_exists;
 if (!function_exists('FastRoute\simpleDispatcher')) {
     /**
      * @param callable $routeDefinitionCallback
-     * @param array<string, string> $options
+     * @param array<string, string|\FastRoute\DataGenerator\DataGeneratorInterface> $options
      * @return \FastRoute\Dispatcher\DispatcherInterface
      */
     function simpleDispatcher(callable $routeDefinitionCallback, array $options = []): DispatcherInterface

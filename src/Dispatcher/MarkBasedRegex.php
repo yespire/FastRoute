@@ -14,7 +14,7 @@ class MarkBasedRegex extends AbstractRegexBased
     protected function dispatchVariableRoute(array $routeData, string $uri): ResultInterface
     {
         foreach ($routeData as $data) {
-            if (!preg_match($data['regex'], $uri, $matches)) {
+            if ((bool)preg_match($data['regex'], $uri, $matches) === false) {
                 continue;
             }
 
