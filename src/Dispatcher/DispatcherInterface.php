@@ -12,7 +12,8 @@ interface DispatcherInterface
 
     /**
      * @param string $httpMethod HTTP Method
-     * @param string $uri        URI
+     * @param string $uri URI
+     * @return \FastRoute\Dispatcher\ResultInterface
      */
     public function dispatch(string $httpMethod, string $uri): ResultInterface;
 }

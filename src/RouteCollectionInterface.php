@@ -13,8 +13,9 @@ interface RouteCollectionInterface
      * @param string|string[] $httpMethod
      * @param string $route
      * @param mixed $handler
+     * @param string|null $name
      */
-    public function addRoute($httpMethod, string $route, $handler): void;
+    public function addRoute($httpMethod, string $route, $handler, ?string $name = null): void;
 
     /**
      * Create a route group with a common prefix.
@@ -97,6 +98,8 @@ interface RouteCollectionInterface
 
     /**
      * Returns the collected route data, as provided by the data generator.
+     *
+     * @return array<string, mixed>
      */
     public function toArray(): array;
 }

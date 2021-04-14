@@ -7,7 +7,7 @@ namespace FastRoute;
 interface ReverseRouteInterface
 {
     /**
-     * @param array $vars
+     * @param array<string, mixed> $vars
      * @return string
      */
     public function reverse(array $vars = []): string;

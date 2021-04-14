@@ -7,9 +7,9 @@ namespace FastRoute;
 class RouteFactory implements RouteFactoryInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function createRoute(string $httpMethod, $handler, string $regex, array $variables, bool $isStatic = false, ?string $name = null)
+    public function createRoute(string $httpMethod, $handler, string $regex, array $variables, bool $isStatic = false, ?string $name = null): RouteInterface
     {
         return new Route($httpMethod, $handler, $regex, $variables, $isStatic, $name);
     }

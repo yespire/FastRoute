@@ -37,7 +37,7 @@ abstract class AbstractRegexBased implements DispatcherInterface
 
         [$this->staticRouteMap, $this->variableRouteData] = $data;
 
-        if ($resultFactory) {
+        if ($resultFactory !== null) {
             $this->resultFactory = $resultFactory;
         } elseif (isset($data['resultFactory'])) {
             $this->resultFactory = $data['resultFactory'];
@@ -54,7 +54,7 @@ abstract class AbstractRegexBased implements DispatcherInterface
     abstract protected function dispatchVariableRoute(array $routeData, string $uri): ResultInterface;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function dispatch(string $httpMethod, string $uri): ResultInterface
     {

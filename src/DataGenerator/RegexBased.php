@@ -52,11 +52,11 @@ class RegexBased implements DataGeneratorInterface
         ?ChunkProcessorInterface $chunkProcessor = null,
         ?RouteFactoryInterface $routeFactory = null
     ) {
-        if (!$routeFactory) {
+        if ($routeFactory === null) {
             $this->routeFactory = new RouteFactory();
         }
 
-        if (!$chunkProcessor) {
+        if ($chunkProcessor === null) {
             return;
         }
 
@@ -92,7 +92,7 @@ class RegexBased implements DataGeneratorInterface
     /**
      * {@inheritDoc}
      */
-    public function addRoute(string $httpMethod, array $routeData, $handler): RouteInterface
+    public function addRoute(string $httpMethod, array $routeData, $handler, ?string $name): RouteInterface
     {
         if ($this->isStaticRoute($routeData)) {
             return $this->addStaticRoute($httpMethod, $routeData, $handler);

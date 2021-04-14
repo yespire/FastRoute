@@ -18,9 +18,10 @@ interface DataGeneratorInterface
      * @param string $httpMethod
      * @param mixed[] $routeData
      * @param mixed $handler
+     * @param string|null $name
      * @return \FastRoute\RouteInterface
      */
-    public function addRoute(string $httpMethod, array $routeData, $handler): RouteInterface;
+    public function addRoute(string $httpMethod, array $routeData, $handler, ?string $name): RouteInterface;
 
     /**
      * Returns dispatcher data in some unspecified format, which

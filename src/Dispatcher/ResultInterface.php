@@ -27,9 +27,23 @@ interface ResultInterface extends ArrayAccess
      */
     public function args();
 
+    /**
+     * @return bool
+     */
     public function routeMatched(): bool;
 
+    /**
+     * @return bool
+     */
     public function methodNotAllowed(): bool;
 
+    /**
+     * @return bool
+     */
     public function routeNotFound(): bool;
+
+    /**
+     * @return array<mixed, mixed>
+     */
+    public function toArray(): array;
 }

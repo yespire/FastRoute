@@ -14,6 +14,6 @@ class RouteTest extends TestCase
         $route = new Route('GET', 'handler', '/articles/{id:\d+}[/{title}]', []);
         $result = $route->reverse(['id' => 123, 'title' => 'foo-bar']);
 
-        $this->assertSame('/articles/123/foo-bar', $result);
+        self::assertSame('/articles/123/foo-bar', $result);
     }
 }

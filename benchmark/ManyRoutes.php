@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace FastRoute\Benchmark;
 
-use FastRoute\Dispatcher;
+use FastRoute\Dispatcher\DispatcherInterface;
+use FastRoute\Dispatcher\ResultInterface;
 use FastRoute\RouteCollection;
 use function FastRoute\simpleDispatcher;
 
@@ -12,7 +13,7 @@ final class ManyRoutes extends Dispatching
     /**
      * {@inheritDoc}
      */
-    protected function createDispatcher(array $options = []): Dispatcher
+    protected function createDispatcher(array $options = []): DispatcherInterface
     {
         return simpleDispatcher(
             static function (RouteCollection $routes): void {
@@ -33,19 +34,19 @@ final class ManyRoutes extends Dispatching
         yield 'first' => [
             'method' => 'GET',
             'route' => '/abc0',
-            'result' => [Dispatcher::FOUND, ['name' => 'static-0'], []],
+            'result' => [ResultInterface::FOUND, ['name' => 'static-0'], []],
         ];
 
         yield 'last' => [
             'method' => 'GET',
             'route' => '/abc399',
-            'result' => [Dispatcher::FOUND, ['name' => 'static-399'], []],
+            'result' => [ResultInterface::FOUND, ['name' => 'static-399'], []],
         ];
 
         yield 'invalid-method' => [
             'method' => 'PUT',
             'route' => '/abc399',
-            'result' => [Dispatcher::METHOD_NOT_ALLOWED, ['GET']],
+            'result' => [ResultInterface::METHOD_NOT_ALLOWED, ['GET']],
         ];
     }
 
@@ -57,19 +58,19 @@ final class ManyRoutes extends Dispatching
         yield 'first' => [
             'method' => 'GET',
             'route' => '/abcbar/0',
-            'result' => [Dispatcher::FOUND, ['name' => 'not-static-0'], ['foo' => 'bar']],
+            'result' => [ResultInterface::FOUND, ['name' => 'not-static-0'], ['foo' => 'bar']],
         ];
 
         yield 'last' => [
             'method' => 'GET',
             'route' => '/abcbar/399',
-            'result' => [Dispatcher::FOUND, ['name' => 'not-static-399'], ['foo' => 'bar']],
+            'result' => [ResultInterface::FOUND, ['name' => 'not-static-399'], ['foo' => 'bar']],
         ];
 
         yield 'invalid-method' => [
             'method' => 'PUT',
             'route' => '/abcbar/399',
-            'result' => [Dispatcher::METHOD_NOT_ALLOWED, ['GET']],
+            'result' => [ResultInterface::METHOD_NOT_ALLOWED, ['GET']],
         ];
     }
 
@@ -81,7 +82,7 @@ final class ManyRoutes extends Dispatching
         yield 'non-existent' => [
             'method' => 'GET',
             'route' => '/testing',
-            'result' => [Dispatcher::NOT_FOUND],
+            'result' => [ResultInterface::NOT_FOUND],
         ];
     }
 }

@@ -12,25 +12,39 @@ use RuntimeException;
  */
 class Result implements ResultInterface
 {
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected bool $matched = false;
 
-    /** @var RouteInterface|null */
+    /**
+     * @var RouteInterface|null
+     */
     protected ?RouteInterface $route;
 
-    /** @var mixed[] */
+    /**
+     * @var mixed[]
+     */
     protected array $result = [];
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected int $status = self::NOT_FOUND;
 
-    /** @var mixed */
+    /**
+     * @var mixed
+     */
     protected $handler;
 
-    /** @var mixed[] */
+    /**
+     * @var mixed[]
+     */
     protected array $args = [];
 
-    /** @var string[] */
+    /**
+     * @var string[]
+     */
     protected array $allowedMethods = [];
 
     /**
@@ -73,6 +87,7 @@ class Result implements ResultInterface
 
     /**
      * @param string[] $allowedMethods
+     * @return \FastRoute\Dispatcher\Result
      */
     public static function createMethodNotAllowed(array $allowedMethods): Result
     {
@@ -86,6 +101,7 @@ class Result implements ResultInterface
 
     /**
      * @param mixed[] $result Result
+     * @return \FastRoute\Dispatcher\Result
      */
     public static function fromArray(array $result): Result
     {

@@ -65,7 +65,7 @@ class Route implements RouteInterface, ReverseRouteInterface
     }
 
     /**
-     * @param array $vars
+     * @param array<mixed, mixed> $vars
      * @return string
      */
     public function reverse(array $vars = []): string
@@ -173,8 +173,8 @@ class Route implements RouteInterface, ReverseRouteInterface
 
     /**
      * @param string $string
-     * @param array $optionalParts
-     * @return array
+     * @param array<mixed, mixed> $optionalParts
+     * @return array<mixed, mixed>
      */
     protected function reverseOptionalParts(string $string, array $optionalParts = []): array
     {

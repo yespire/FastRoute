@@ -45,13 +45,7 @@ class RouteCollection implements RouteCollectionInterface
     }
 
     /**
-     * Adds a route to the collection.
-     * The syntax used in the $route string depends on the used route parser.
-     *
-     * @param string|string[] $httpMethod
-     * @param string $route
-     * @param mixed $handler
-     * @param string|null $name
+     * {@inheritDoc}
      */
     public function addRoute($httpMethod, string $route, $handler, ?string $name = null): void
     {
@@ -60,7 +54,7 @@ class RouteCollection implements RouteCollectionInterface
         foreach ((array) $httpMethod as $method) {
             foreach ($routingData as $routeData) {
                 $route = $this->dataGenerator->addRoute($method, $routeData, $handler, $name);
-                if ($route->name()) {
+                if ($route->name() !== null) {
                     $this->namedRoutes[$route->name()] = $route;
                 }
             }
@@ -68,10 +62,7 @@ class RouteCollection implements RouteCollectionInterface
     }
 
     /**
-     * Gets a route by name
-     *
-     * @param string $name
-     * @return \FastRoute\RouteInterface|null
+     * {@inheritDoc}
      */
     public function getRouteByName(string $name): ?RouteInterface
     {
@@ -79,11 +70,7 @@ class RouteCollection implements RouteCollectionInterface
     }
 
     /**
-     * Create a route group with a common prefix.
-     * All routes created in the passed callback will have the given group prefix prepended.
-     *
-     * @param string $prefix
-     * @param callable $callback
+     * {@inheritDoc}
      */
     public function addGroup(string $prefix, callable $callback): void
     {
@@ -96,11 +83,7 @@ class RouteCollection implements RouteCollectionInterface
     }
 
     /**
-     * Adds a GET route to the collection
-     * This is simply an alias of $this->addRoute('GET', $route, $handler)
-     *
-     * @param string $route
-     * @param mixed $handler
+     * {@inheritDoc}
      */
     public function get(string $route, $handler): void
     {
@@ -108,11 +91,7 @@ class RouteCollection implements RouteCollectionInterface
     }
 
     /**
-     * Adds a POST route to the collection
-     * This is simply an alias of $this->addRoute('POST', $route, $handler)
-     *
-     * @param string $route
-     * @param mixed $handler
+     * {@inheritDoc}
      */
     public function post(string $route, $handler): void
     {
@@ -120,11 +99,7 @@ class RouteCollection implements RouteCollectionInterface
     }
 
     /**
-     * Adds a PUT route to the collection
-     * This is simply an alias of $this->addRoute('PUT', $route, $handler)
-     *
-     * @param string $route
-     * @param mixed $handler
+     * {@inheritDoc}
      */
     public function put(string $route, $handler): void
     {
@@ -132,11 +107,7 @@ class RouteCollection implements RouteCollectionInterface
     }
 
     /**
-     * Adds a DELETE route to the collection
-     * This is simply an alias of $this->addRoute('DELETE', $route, $handler)
-     *
-     * @param string $route
-     * @param mixed $handler
+     * {@inheritDoc}
      */
     public function delete(string $route, $handler): void
     {
@@ -144,11 +115,7 @@ class RouteCollection implements RouteCollectionInterface
     }
 
     /**
-     * Adds a PATCH route to the collection
-     * This is simply an alias of $this->addRoute('PATCH', $route, $handler)
-     *
-     * @param string $route
-     * @param mixed $handler
+     * {@inheritDoc}
      */
     public function patch(string $route, $handler): void
     {
@@ -156,11 +123,7 @@ class RouteCollection implements RouteCollectionInterface
     }
 
     /**
-     * Adds a HEAD route to the collection
-     * This is simply an alias of $this->addRoute('HEAD', $route, $handler)
-     *
-     * @param string $route
-     * @param mixed $handler
+     * {@inheritDoc}
      */
     public function head(string $route, $handler): void
     {
@@ -168,11 +131,7 @@ class RouteCollection implements RouteCollectionInterface
     }
 
     /**
-     * Adds an OPTIONS route to the collection
-     * This is simply an alias of $this->addRoute('OPTIONS', $route, $handler)
-     *
-     * @param string $route
-     * @param mixed $handler
+     * {@inheritDoc}
      */
     public function options(string $route, $handler): void
     {
@@ -180,15 +139,16 @@ class RouteCollection implements RouteCollectionInterface
     }
 
     /**
-     * Returns the collected route data, as provided by the data generator.
-     *
-     * @return mixed[]
+     * {@inheritDoc}
      */
     public function getData(): array
     {
         return $this->dataGenerator->getData();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function toArray(): array
     {
         return $this->getData();

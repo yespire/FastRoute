@@ -6,6 +6,7 @@ namespace FastRoute\Benchmark;
 use FastRoute\DataGenerator;
 use FastRoute\DataGenerator\RegexBased;
 use FastRoute\Dispatcher;
+use FastRoute\Dispatcher\DispatcherInterface;
 use Generator;
 use PhpBench\Benchmark\Metadata\Annotations\BeforeMethods;
 use PhpBench\Benchmark\Metadata\Annotations\Iterations;
@@ -21,9 +22,14 @@ use PhpBench\Benchmark\Metadata\Annotations\Warmup;
  */
 abstract class Dispatching
 {
-    /** @var Dispatcher[] */
-    private $dispatchers = [];
+    /**
+     * @var \FastRoute\Dispatcher\DispatcherInterface[]
+     */
+    private array $dispatchers = [];
 
+    /**
+     * @return void
+     */
     public function initializeDispatchers(): void
     {
         $this->dispatchers['default'] = $this->createDispatcher();
@@ -48,9 +54,10 @@ abstract class Dispatching
     }
 
     /**
-     * @param array<string, (string|DataGenerator)> $options
+     * @param array<string, (string|\FastRoute\DataGenerator\DataGeneratorInterface)> $options
+     * @return \FastRoute\Dispatcher\DispatcherInterface
      */
-    abstract protected function createDispatcher(array $options = []): Dispatcher;
+    abstract protected function createDispatcher(array $options = []): DispatcherInterface;
 
     /**
      * @return Generator<string, array<string, mixed>>
@@ -90,8 +97,7 @@ abstract class Dispatching
 
     /**
      * @ParamProviders({"provideDispatcher", "provideDynamicRoutes"})
-     *
-     * @param array<string, string|string[]> $params
+     * @param array<mixed, mixed> $params
      */
     public function benchDynamicRoutes(array $params): void
     {
@@ -100,8 +106,7 @@ abstract class Dispatching
 
     /**
      * @ParamProviders({"provideDispatcher", "provideOtherScenarios"})
-     *
-     * @param array<string, string|string[]> $params
+     * @param array<mixed, mixed> $params
      */
     public function benchOtherRoutes(array $params): void
     {
@@ -109,7 +114,7 @@ abstract class Dispatching
     }
 
     /**
-     * @param array<string, string|string[]> $params
+     * @param array<mixed, mixed> $params
      */
     private function runScenario(array $params): void
     {

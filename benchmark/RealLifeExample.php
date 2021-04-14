@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace FastRoute\Benchmark;
 
-use FastRoute\Dispatcher;
+use FastRoute\Dispatcher\DispatcherInterface;
+use FastRoute\Dispatcher\ResultInterface;
 use FastRoute\RouteCollection;
+
 use function FastRoute\simpleDispatcher;
 
 final class RealLifeExample extends Dispatching
@@ -12,7 +14,7 @@ final class RealLifeExample extends Dispatching
     /**
      * {@inheritDoc}
      */
-    protected function createDispatcher(array $options = []): Dispatcher
+    protected function createDispatcher(array $options = []): DispatcherInterface
     {
         return simpleDispatcher(
             static function (RouteCollection $routes): void {
@@ -70,19 +72,19 @@ final class RealLifeExample extends Dispatching
         yield 'first' => [
             'method' => 'GET',
             'route' => '/',
-            'result' => [Dispatcher::FOUND, ['name' => 'home'], []],
+            'result' => [ResultInterface::FOUND, ['name' => 'home'], []],
         ];
 
         yield 'last' => [
             'method' => 'GET',
             'route' => '/admin/category',
-            'result' => [Dispatcher::FOUND, ['name' => 'admin.category.index'], []],
+            'result' => [ResultInterface::FOUND, ['name' => 'admin.category.index'], []],
         ];
 
         yield 'invalid-method' => [
             'method' => 'PUT',
             'route' => '/about-us',
-            'result' => [Dispatcher::METHOD_NOT_ALLOWED, ['GET']],
+            'result' => [ResultInterface::METHOD_NOT_ALLOWED, ['GET']],
         ];
     }
 
@@ -94,19 +96,19 @@ final class RealLifeExample extends Dispatching
         yield 'first' => [
             'method' => 'GET',
             'route' => '/page/hello-word',
-            'result' => [Dispatcher::FOUND, ['name' => 'page.show'], ['page_slug' => 'hello-word']],
+            'result' => [ResultInterface::FOUND, ['name' => 'page.show'], ['page_slug' => 'hello-word']],
         ];
 
         yield 'last' => [
             'method' => 'GET',
             'route' => '/admin/category/123',
-            'result' => [Dispatcher::FOUND, ['name' => 'admin.category.show'], ['category_id' => '123']],
+            'result' => [ResultInterface::FOUND, ['name' => 'admin.category.show'], ['category_id' => '123']],
         ];
 
         yield 'invalid-method' => [
             'method' => 'PATCH',
             'route' => '/shop/category/123',
-            'result' => [Dispatcher::METHOD_NOT_ALLOWED, ['GET']],
+            'result' => [ResultInterface::METHOD_NOT_ALLOWED, ['GET']],
         ];
     }
 
@@ -118,14 +120,14 @@ final class RealLifeExample extends Dispatching
         yield 'non-existent' => [
             'method' => 'GET',
             'route' => '/shop/product/awesome',
-            'result' => [Dispatcher::NOT_FOUND],
+            'result' => [ResultInterface::NOT_FOUND],
         ];
 
         yield 'longest-route' => [
             'method' => 'GET',
             'route' => '/shop/category/123/product/search/status:sale',
             'result' => [
-                Dispatcher::FOUND,
+                ResultInterface::FOUND,
                 ['name' => 'shop.category.product.search'],
                 ['category_id' => '123', 'filter_by' => 'status', 'filter_value' => 'sale'],
             ],

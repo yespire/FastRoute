@@ -12,7 +12,10 @@ use FastRoute\RouteInterface;
 interface ResultFactoryInterface
 {
     /**
-     * @inheritDoc
+     * @param int $status
+     * @param null $handler
+     * @param \FastRoute\RouteInterface|null $route
+     * @return \FastRoute\Dispatcher\ResultInterface
      */
     public function createResult(
         int $status = ResultInterface::NOT_FOUND,
@@ -22,11 +25,12 @@ interface ResultFactoryInterface
 
     /**
      * @param mixed[] $result
+     * @return \FastRoute\Dispatcher\ResultInterface
      */
     public function createResultFromArray(array $result): ResultInterface;
 
     /**
-     * @param array $allowedMethods
+     * @param array<int, string> $allowedMethods
      * @return \FastRoute\Dispatcher\ResultInterface
      */
     public function createNotAllowed(array $allowedMethods): ResultInterface;

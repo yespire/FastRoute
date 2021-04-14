@@ -13,7 +13,7 @@ class RouteParserTest extends TestCase
     /**
      * @dataProvider provideTestParse
      * @param string $routeString
-     * @param array $expectedRouteDatas
+     * @param array<mixed, mixed> $expectedRouteDatas
      * @throws \FastRoute\Exception\OptionalSegmentException
      */
     public function testParse(string $routeString, array $expectedRouteDatas): void

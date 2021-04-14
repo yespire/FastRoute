@@ -8,12 +8,12 @@ interface RouteFactoryInterface
 {
     /**
      * @param string $httpMethod
-     * @param $handler
+     * @param mixed $handler
      * @param string $regex
-     * @param array $variables
+     * @param array<string, mixed> $variables
      * @param bool $isStatic
      * @param string|null $name
      * @return \FastRoute\RouteInterface
      */
-    public function createRoute(string $httpMethod, $handler, string $regex, array $variables, bool $isStatic = false, ?string $name = null);
+    public function createRoute(string $httpMethod, $handler, string $regex, array $variables, bool $isStatic = false, ?string $name = null): RouteInterface;
 }

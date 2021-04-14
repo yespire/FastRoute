@@ -12,18 +12,22 @@ use FastRoute\RouteInterface;
 class ResultFactory implements ResultFactoryInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function createResult(
         int $status = ResultInterface::NOT_FOUND,
         $handler = null,
         ?RouteInterface $route = null
     ): ResultInterface {
-        return new Result();
+        return new Result(
+            $status,
+            $handler,
+            $route
+        );
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function createNotFound(): ResultInterface
     {
@@ -31,7 +35,7 @@ class ResultFactory implements ResultFactoryInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function createNotAllowed(array $allowedMethods): ResultInterface
     {
@@ -39,7 +43,7 @@ class ResultFactory implements ResultFactoryInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function createResultFromArray(array $result): ResultInterface
     {
