@@ -60,29 +60,12 @@ class Result implements ResultInterface
         $this->status = $status;
         $this->handler = $handler;
         $this->route = $route;
+
         $this->result = [
             $status,
             $handler,
             $route
         ];
-    }
-
-    public static function createFound(RouteInterface $route): Result
-    {
-        return new self(
-            self::FOUND,
-            $route->handler(),
-            $route
-        );
-    }
-
-    public static function createNotFound(): Result
-    {
-        $self = new self();
-        $self->result = [self::NOT_FOUND];
-        $self->status = self::NOT_FOUND;
-
-        return $self;
     }
 
     /**

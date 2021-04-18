@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace FastRoute;
 
+/**
+ * RouteFactory
+ */
 class RouteFactory implements RouteFactoryInterface
 {
     /**

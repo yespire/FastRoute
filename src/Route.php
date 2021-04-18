@@ -9,6 +9,9 @@ use function preg_match;
 use function preg_match_all;
 use function str_replace;
 
+/**
+ * Route
+ */
 class Route implements RouteInterface, ReverseRouteInterface
 {
     /**
@@ -145,6 +148,14 @@ class Route implements RouteInterface, ReverseRouteInterface
     public function handler()
     {
         return $this->handler;
+    }
+
+    /**
+     * @return string
+     */
+    public function method(): string
+    {
+        return $this->httpMethod;
     }
 
     /**

@@ -28,7 +28,7 @@ class RouteCollection implements RouteCollectionInterface
     protected string $currentGroupPrefix = '';
 
     /**
-     * @var array<string, \FastRoute\RouteInterface>
+     * @var array<string, array>
      */
     protected array $namedRoutes = [];
 
@@ -51,11 +51,14 @@ class RouteCollection implements RouteCollectionInterface
     {
         $route = $this->currentGroupPrefix . $route;
         $routingData = $this->routeParser->parse($route);
+
         foreach ((array) $httpMethod as $method) {
             foreach ($routingData as $routeData) {
                 $route = $this->dataGenerator->addRoute($method, $routeData, $handler, $name);
-                if ($route->name() !== null) {
-                    $this->namedRoutes[$route->name()] = $route;
+                $name = $route->name();
+
+                if ($name !== null && isset($this->namedRoutes[$method])) {
+                    $this->namedRoutes[$method][$name] = $route;
                 }
             }
         }
@@ -64,9 +67,9 @@ class RouteCollection implements RouteCollectionInterface
     /**
      * {@inheritDoc}
      */
-    public function getRouteByName(string $name): ?RouteInterface
+    public function getRouteByName(string $name, string $method): ?RouteInterface
     {
-        return $this->namedRoutes[$name] ?? null;
+        return $this->namedRoutes[$method][$name] ?? null;
     }
 
     /**

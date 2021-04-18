@@ -15,5 +15,8 @@ interface ChunkProcessorInterface
      */
     public function processChunk(array $regexToRoutesMap): array;
 
+    /**
+     * @return int
+     */
     public function getApproxChunkSize(): int;
 }

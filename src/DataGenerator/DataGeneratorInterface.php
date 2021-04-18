@@ -6,6 +6,9 @@ namespace FastRoute\DataGenerator;
 
 use FastRoute\RouteInterface;
 
+/**
+ * DataGeneratorInterface
+ */
 interface DataGeneratorInterface
 {
     /**

@@ -6,6 +6,9 @@ namespace FastRoute\DataGenerator;
 
 use function implode;
 
+/**
+ * MarkBasedProcessor
+ */
 class MarkBasedProcessor implements ChunkProcessorInterface
 {
     /**

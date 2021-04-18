@@ -22,6 +22,9 @@ use function round;
 use function sprintf;
 use function strpos;
 
+/**
+ * RegexBased
+ */
 class RegexBased implements DataGeneratorInterface
 {
     /**
@@ -221,8 +224,8 @@ class RegexBased implements DataGeneratorInterface
 
     /**
      * @param mixed[] $routeData
-     *
      * @return mixed[]
+     * @throws \FastRoute\Exception\BadRouteException
      */
     protected function buildRegexForRoute(array $routeData): array
     {

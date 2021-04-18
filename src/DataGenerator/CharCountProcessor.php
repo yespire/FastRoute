@@ -7,6 +7,9 @@ namespace FastRoute\DataGenerator;
 use function count;
 use function implode;
 
+/**
+ * CharCountProcessor
+ */
 class CharCountProcessor implements ChunkProcessorInterface
 {
     /**

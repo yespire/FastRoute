@@ -7,6 +7,9 @@ namespace FastRoute\DataGenerator;
 use function count;
 use function implode;
 
+/**
+ * Class GroupPosProcessor
+ */
 class GroupPosProcessor implements ChunkProcessorInterface
 {
     /**
