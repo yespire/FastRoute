@@ -7,6 +7,7 @@ namespace FastRoute\Test\Dispatcher;
 use FastRoute\DataGenerator\GroupCountProcessor;
 use FastRoute\DataGenerator\RegexBased;
 use FastRoute\Dispatcher;
+use FastRoute\RouteFactory;
 
 class GroupCountBasedTest extends DispatcherTest
 {
@@ -23,6 +24,9 @@ class GroupCountBasedTest extends DispatcherTest
      */
     protected function getDataGeneratorClass()
     {
-        return new RegexBased(new GroupCountProcessor());
+        return new RegexBased(
+            new GroupCountProcessor(),
+            new RouteFactory()
+        );
     }
 }

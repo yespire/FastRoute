@@ -9,11 +9,15 @@ use FastRoute\DataGenerator\RegexBased;
 use FastRoute\Dispatcher\DispatcherInterface;
 use FastRoute\Dispatcher\MarkBasedRegex;
 use FastRoute\RouteCollection;
+use FastRoute\RouteFactory;
 use FastRoute\RouteParser\RouteParser;
 
 use function assert;
 use function is_string;
 
+/**
+ * SimpleDispatcherFactory
+ */
 class SimpleDispatcherFactory implements FactoryInterface
 {
     /**
@@ -23,7 +27,7 @@ class SimpleDispatcherFactory implements FactoryInterface
     {
         $options += [
             'routeParser' => RouteParser::class,
-            'dataGenerator' => new RegexBased(new MarkBasedProcessor()),
+            'dataGenerator' => new RegexBased(new MarkBasedProcessor(), new RouteFactory()),
             'dispatcher' => MarkBasedRegex::class,
             'routeCollector' => RouteCollection::class,
         ];

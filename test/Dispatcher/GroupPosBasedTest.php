@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace FastRoute\Test\Dispatcher;
 
-use FastRoute\DataGenerator;
+use FastRoute\DataGenerator\RegexBased;
+use FastRoute\DataGenerator\GroupPosProcessor;
 use FastRoute\Dispatcher;
+use FastRoute\RouteFactory;
 
 class GroupPosBasedTest extends DispatcherTest
 {
@@ -22,6 +24,9 @@ class GroupPosBasedTest extends DispatcherTest
      */
     protected function getDataGeneratorClass()
     {
-        return new DataGenerator\RegexBased(new DataGenerator\GroupPosProcessor());
+        return new RegexBased(
+            new GroupPosProcessor(),
+            new RouteFactory()
+        );
     }
 }

@@ -48,24 +48,15 @@ class RegexBased implements DataGeneratorInterface
     protected RouteFactoryInterface $routeFactory;
 
     /**
-     * @param \FastRoute\DataGenerator\ChunkProcessorInterface|null $chunkProcessor
-     * @param \FastRoute\RouteFactoryInterface|null $routeFactory
+     * @param \FastRoute\DataGenerator\ChunkProcessorInterface $chunkProcessor
+     * @param \FastRoute\RouteFactoryInterface $routeFactory
      */
     public function __construct(
-        ?ChunkProcessorInterface $chunkProcessor = null,
-        ?RouteFactoryInterface $routeFactory = null
+        ChunkProcessorInterface $chunkProcessor,
+        RouteFactoryInterface $routeFactory
     ) {
-        if ($routeFactory === null) {
-            $this->routeFactory = new RouteFactory();
-        } else {
-            $this->routeFactory = $routeFactory;
-        }
-
-        if ($chunkProcessor === null) {
-            $this->chunkProcessor = new MarkBasedProcessor();
-        } else {
-            $this->chunkProcessor = $chunkProcessor;
-        }
+        $this->chunkProcessor = $chunkProcessor;
+        $this->routeFactory = $routeFactory;
     }
 
     /**

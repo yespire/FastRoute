@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace FastRoute\Test\Dispatcher;
 
-use FastRoute\DataGenerator;
-use FastRoute\Dispatcher;
+use FastRoute\DataGenerator\MarkBasedProcessor;
+use FastRoute\DataGenerator\RegexBased;
+use FastRoute\Dispatcher\MarkBasedRegex;
+use FastRoute\RouteFactory;
 
+/**
+ * MarkBasedTest
+ */
 class MarkBasedTest extends DispatcherTest
 {
     /**
@@ -14,7 +19,7 @@ class MarkBasedTest extends DispatcherTest
      */
     protected function getDispatcherClass()
     {
-        return Dispatcher\MarkBasedRegex::class;
+        return MarkBasedRegex::class;
     }
 
     /**
@@ -22,6 +27,9 @@ class MarkBasedTest extends DispatcherTest
      */
     protected function getDataGeneratorClass()
     {
-        return new DataGenerator\RegexBased(new DataGenerator\MarkBasedProcessor());
+        return new RegexBased(
+            new MarkBasedProcessor(),
+            new RouteFactory()
+        );
     }
 }

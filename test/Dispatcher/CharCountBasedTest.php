@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace FastRoute\Test\Dispatcher;
 
-use FastRoute\DataGenerator;
-use FastRoute\Dispatcher;
+use FastRoute\DataGenerator\CharCountProcessor;
+use FastRoute\DataGenerator\RegexBased;
+use FastRoute\Dispatcher\CharCountBased;
+use FastRoute\RouteFactory;
 
+/**
+ * CharCountBasedTest
+ */
 class CharCountBasedTest extends DispatcherTest
 {
     /**
@@ -14,7 +19,7 @@ class CharCountBasedTest extends DispatcherTest
      */
     protected function getDispatcherClass()
     {
-        return Dispatcher\CharCountBased::class;
+        return CharCountBased::class;
     }
 
     /**
@@ -22,6 +27,9 @@ class CharCountBasedTest extends DispatcherTest
      */
     protected function getDataGeneratorClass()
     {
-        return new DataGenerator\RegexBased(new DataGenerator\CharCountProcessor());
+        return new RegexBased(
+            new CharCountProcessor(),
+            new RouteFactory()
+        );
     }
 }
