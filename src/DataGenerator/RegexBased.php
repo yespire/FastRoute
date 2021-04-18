@@ -57,13 +57,15 @@ class RegexBased implements DataGeneratorInterface
     ) {
         if ($routeFactory === null) {
             $this->routeFactory = new RouteFactory();
+        } else {
+            $this->routeFactory = $routeFactory;
         }
 
         if ($chunkProcessor === null) {
-            return;
+            $this->chunkProcessor = new MarkBasedProcessor();
+        } else {
+            $this->chunkProcessor = $chunkProcessor;
         }
-
-        $this->chunkProcessor = $chunkProcessor;
     }
 
     /**
