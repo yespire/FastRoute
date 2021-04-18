@@ -84,9 +84,9 @@ class Result implements ResultInterface
 
     /**
      * @param mixed[] $result Result
-     * @return \FastRoute\Dispatcher\Result
+     * @return \FastRoute\Dispatcher\ResultInterface
      */
-    public static function fromArray(array $result): Result
+    public static function fromArray(array $result): ResultInterface
     {
         $self = new self();
         $self->result = $result;
@@ -102,15 +102,11 @@ class Result implements ResultInterface
     }
 
     /**
-     * @return mixed
+     * {@inheritDoc}
      */
     public function handler()
     {
-        if (! isset($this->result[1])) {
-            return null;
-        }
-
-        return $this->result[1];
+        return $this->result[1] ?? null;
     }
 
     public function status(): int
@@ -119,34 +115,39 @@ class Result implements ResultInterface
     }
 
     /**
-     * @return mixed
+     * {@inheritDoc}
      */
     public function args()
     {
-        if (! isset($this->result[2])) {
-            return [];
-        }
-
-        return $this->result[2];
+        return $this->result[2] ?? [];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function routeMatched(): bool
     {
         return $this->result[0] === self::FOUND;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function methodNotAllowed(): bool
     {
         return $this->result[0] === self::METHOD_NOT_ALLOWED;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function routeNotFound(): bool
     {
         return $this->result[0] === self::NOT_FOUND;
     }
 
     /**
-     * @param mixed $offset
+     * {@inheritDoc}
      */
     public function offsetExists($offset): bool
     {
@@ -154,9 +155,7 @@ class Result implements ResultInterface
     }
 
     /**
-     * @param mixed $offset
-     *
-     * @return mixed
+     * {@inheritDoc}
      */
     public function offsetGet($offset)
     {
@@ -164,8 +163,7 @@ class Result implements ResultInterface
     }
 
     /**
-     * @param mixed $offset
-     * @param mixed $value
+     * {@inheritDoc}
      */
     public function offsetSet($offset, $value): void
     {
@@ -175,7 +173,7 @@ class Result implements ResultInterface
     }
 
     /**
-     * @param mixed $offset
+     * {@inheritDoc}
      */
     public function offsetUnset($offset): void
     {
@@ -185,9 +183,7 @@ class Result implements ResultInterface
     }
 
     /**
-     * Gets the legacy array
-     *
-     * @return mixed[]
+     * {@inheritDoc}
      */
     public function toArray(): array
     {

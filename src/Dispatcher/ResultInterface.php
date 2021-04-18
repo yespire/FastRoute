@@ -20,6 +20,9 @@ interface ResultInterface extends ArrayAccess
      */
     public function handler();
 
+    /**
+     * @return int
+     */
     public function status(): int;
 
     /**
