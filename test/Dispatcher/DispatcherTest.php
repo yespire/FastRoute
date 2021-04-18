@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace FastRoute\Test\Dispatcher;
 
 use FastRoute\Exception\BadRouteException;
+use FastRoute\Factory\SimpleDispatcherFactory;
 use FastRoute\RouteCollection;
 use PHPUnit\Framework\TestCase;
-
-use function FastRoute\simpleDispatcher;
 
 abstract class DispatcherTest extends TestCase
 {
@@ -51,7 +50,7 @@ abstract class DispatcherTest extends TestCase
         string $handler,
         array $argDict
     ): void {
-        $dispatcher = simpleDispatcher($callback, $this->generateDispatcherOptions());
+        $dispatcher = SimpleDispatcherFactory::create($callback, $this->generateDispatcherOptions());
         $info = $dispatcher->dispatch($method, $uri);
 
         /**
@@ -67,7 +66,7 @@ abstract class DispatcherTest extends TestCase
      */
     public function testNotFoundDispatches(string $method, string $uri, callable $callback): void
     {
-        $dispatcher = simpleDispatcher($callback, $this->generateDispatcherOptions());
+        $dispatcher = SimpleDispatcherFactory::create($callback, $this->generateDispatcherOptions());
         $result = $dispatcher->dispatch($method, $uri);
         self::assertArrayNotHasKey(
             1,
@@ -89,7 +88,7 @@ abstract class DispatcherTest extends TestCase
         callable $callback,
         array $availableMethods
     ): void {
-        $dispatcher = simpleDispatcher($callback, $this->generateDispatcherOptions());
+        $dispatcher = SimpleDispatcherFactory::create($callback, $this->generateDispatcherOptions());
         $routeInfo = $dispatcher->dispatch($method, $uri);
         self::assertArrayHasKey(
             1,
@@ -107,7 +106,7 @@ abstract class DispatcherTest extends TestCase
         $this->expectException(BadRouteException::class);
         $this->expectExceptionMessage('Cannot use the same placeholder "test" twice');
 
-        simpleDispatcher(static function (RouteCollection $r): void {
+        SimpleDispatcherFactory::create(static function (RouteCollection $r): void {
             $r->addRoute('GET', '/foo/{test}/{test:\d+}', 'handler0');
         }, $this->generateDispatcherOptions());
     }
@@ -117,7 +116,7 @@ abstract class DispatcherTest extends TestCase
         $this->expectException(BadRouteException::class);
         $this->expectExceptionMessage('Cannot register two routes matching "/user/([^/]+)" for method "GET"');
 
-        simpleDispatcher(static function (RouteCollection $r): void {
+        SimpleDispatcherFactory::create(static function (RouteCollection $r): void {
             $r->addRoute('GET', '/user/{id}', 'handler0'); // oops, forgot \d+ restriction ;)
             $r->addRoute('GET', '/user/{name}', 'handler1');
         }, $this->generateDispatcherOptions());
@@ -128,7 +127,7 @@ abstract class DispatcherTest extends TestCase
         $this->expectException(BadRouteException::class);
         $this->expectExceptionMessage('Cannot register two routes matching "/user" for method "GET"');
 
-        simpleDispatcher(static function (RouteCollection $r): void {
+        SimpleDispatcherFactory::create(static function (RouteCollection $r): void {
             $r->addRoute('GET', '/user', 'handler0');
             $r->addRoute('GET', '/user', 'handler1');
         }, $this->generateDispatcherOptions());
@@ -139,7 +138,7 @@ abstract class DispatcherTest extends TestCase
         $this->expectException(BadRouteException::class);
         $this->expectExceptionMessage('Static route "/user/nikic" is shadowed by previously defined variable route "/user/([^/]+)" for method "GET"');
 
-        simpleDispatcher(static function (RouteCollection $r): void {
+        SimpleDispatcherFactory::create(static function (RouteCollection $r): void {
             $r->addRoute('GET', '/user/{name}', 'handler0');
             $r->addRoute('GET', '/user/nikic', 'handler1');
         }, $this->generateDispatcherOptions());
@@ -150,7 +149,7 @@ abstract class DispatcherTest extends TestCase
         $this->expectException(BadRouteException::class);
         $this->expectExceptionMessage('Regex "(en|de)" for parameter "lang" contains a capturing group');
 
-        simpleDispatcher(static function (RouteCollection $r): void {
+        SimpleDispatcherFactory::create(static function (RouteCollection $r): void {
             $r->addRoute('GET', '/{lang:(en|de)}', 'handler0');
         }, $this->generateDispatcherOptions());
     }

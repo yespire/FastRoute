@@ -217,21 +217,18 @@ dispatcher. The three components adhere to the following interfaces:
 
 ```php
 <?php
-
 namespace FastRoute;
 
-interface RouteParser {
+interface RouteParserInterface {
     public function parse($route);
 }
 
-interface DataGenerator {
+interface DataGeneratorInterface {
     public function addRoute($httpMethod, $routeData, $handler);
     public function getData();
 }
 
-interface Dispatcher {
-    const NOT_FOUND = 0, FOUND = 1, METHOD_NOT_ALLOWED = 2;
-
+interface DispatcherInterface {
     public function dispatch($httpMethod, $uri);
 }
 ```
@@ -267,13 +264,13 @@ the former is tightly coupled to the input of the latter. The reason the generat
 dispatcher are separate is that only the latter is needed when using caching (as the output of
 the former is what is being cached.)
 
-When using the `simpleDispatcher` / `cachedDispatcher` functions from above the override happens
+When using the `SimpleDispatcherFactory` / `CachedDispatcherFactory` from above the override happens
 through the options array:
 
 ```php
 <?php
 
-$dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollection $r) {
+$dispatcher = FastRoute\Factory\SimpleDispatcherFactory::create(function(FastRoute\RouteCollection $r) {
     /* ... */
 }, [
     'routeParser' => 'FastRoute\\RouteParser\\RouteParser',
