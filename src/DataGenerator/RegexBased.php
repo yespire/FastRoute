@@ -168,7 +168,7 @@ class RegexBased implements DataGeneratorInterface
                     throw new BadRouteException(sprintf(
                         'Static route "%s" is shadowed by previously defined variable route "%s" for method "%s"',
                         $routeStr,
-                        $route->regex,
+                        $route->regex(),
                         $httpMethod
                     ));
                 }

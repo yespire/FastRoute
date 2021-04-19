@@ -17,27 +17,27 @@ class Route implements RouteInterface, ReverseRouteInterface
     /**
      * @var string
      */
-    public string $httpMethod;
+    protected string $httpMethod;
 
     /**
      * @var string
      */
-    public string $regex;
+    protected string $regex;
 
     /**
      * @var mixed[]
      */
-    public array $variables;
+    protected array $variables;
 
     /**
      * @var mixed
      */
-    public $handler;
+    protected $handler;
 
     /**
      * @var bool
      */
-    public bool $isStatic = false;
+    protected bool $isStatic = false;
 
     /**
      * string|null
