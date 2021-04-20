@@ -7,6 +7,7 @@ use FastRoute\DataGenerator;
 use FastRoute\DataGenerator\RegexBased;
 use FastRoute\Dispatcher;
 use FastRoute\Dispatcher\DispatcherInterface;
+use FastRoute\RouteFactory;
 use Generator;
 use PhpBench\Benchmark\Metadata\Annotations\BeforeMethods;
 use PhpBench\Benchmark\Metadata\Annotations\Iterations;
@@ -35,19 +36,19 @@ abstract class Dispatching
         $this->dispatchers['default'] = $this->createDispatcher();
         $this->dispatchers['char_count'] = $this->createDispatcher(
             [
-                'dataGenerator' => new RegexBased(new DataGenerator\CharCountProcessor()),
+                'dataGenerator' => new RegexBased(new DataGenerator\CharCountProcessor(), new RouteFactory()),
                 'dispatcher' => Dispatcher\CharCountBased::class,
             ]
         );
         $this->dispatchers['group_pos'] = $this->createDispatcher(
             [
-                'dataGenerator' => new RegexBased(new DataGenerator\GroupPosProcessor()),
+                'dataGenerator' => new RegexBased(new DataGenerator\GroupPosProcessor(), new RouteFactory()),
                 'dispatcher' => Dispatcher\GroupPosBased::class,
             ]
         );
         $this->dispatchers['mark'] = $this->createDispatcher(
             [
-                'dataGenerator' => new RegexBased(new DataGenerator\MarkBasedProcessor()),
+                'dataGenerator' => new RegexBased(new DataGenerator\MarkBasedProcessor(), new RouteFactory()),
                 'dispatcher' => Dispatcher\MarkBasedRegex::class,
             ]
         );

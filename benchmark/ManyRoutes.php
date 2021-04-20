@@ -5,8 +5,8 @@ namespace FastRoute\Benchmark;
 
 use FastRoute\Dispatcher\DispatcherInterface;
 use FastRoute\Dispatcher\ResultInterface;
+use FastRoute\Factory\SimpleDispatcherFactory;
 use FastRoute\RouteCollection;
-use function FastRoute\simpleDispatcher;
 
 final class ManyRoutes extends Dispatching
 {
@@ -15,7 +15,7 @@ final class ManyRoutes extends Dispatching
      */
     protected function createDispatcher(array $options = []): DispatcherInterface
     {
-        return simpleDispatcher(
+        return SimpleDispatcherFactory::create(
             static function (RouteCollection $routes): void {
                 for ($i = 0; $i < 400; ++$i) {
                     $routes->addRoute('GET', '/abc' . $i, ['name' => 'static-' . $i]);

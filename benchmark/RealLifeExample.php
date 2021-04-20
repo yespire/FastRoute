@@ -5,6 +5,7 @@ namespace FastRoute\Benchmark;
 
 use FastRoute\Dispatcher\DispatcherInterface;
 use FastRoute\Dispatcher\ResultInterface;
+use FastRoute\Factory\SimpleDispatcherFactory;
 use FastRoute\RouteCollection;
 
 use function FastRoute\simpleDispatcher;
@@ -16,7 +17,7 @@ final class RealLifeExample extends Dispatching
      */
     protected function createDispatcher(array $options = []): DispatcherInterface
     {
-        return simpleDispatcher(
+        return SimpleDispatcherFactory::create(
             static function (RouteCollection $routes): void {
                 $routes->addRoute('GET', '/', ['name' => 'home']);
                 $routes->addRoute('GET', '/page/{page_slug:[a-zA-Z0-9\-]+}', ['name' => 'page.show']);
