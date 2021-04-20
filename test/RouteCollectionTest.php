@@ -6,7 +6,7 @@ namespace FastRoute\Test;
 
 use PHPUnit\Framework\TestCase;
 
-class RouteCollectorTest extends TestCase
+class RouteCollectionTest extends TestCase
 {
     public function testShortcuts(): void
     {
