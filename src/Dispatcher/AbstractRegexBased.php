@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FastRoute\Dispatcher;
 
 use FastRoute\RouteCollectionInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 abstract class AbstractRegexBased implements DispatcherInterface
 {
@@ -52,6 +53,17 @@ abstract class AbstractRegexBased implements DispatcherInterface
      * @return \FastRoute\Dispatcher\ResultInterface
      */
     abstract protected function dispatchVariableRoute(array $routeData, string $uri): ResultInterface;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function dispatchRequest(ServerRequestInterface $serverRequest): ResultInterface
+    {
+        return $this->dispatch(
+            $serverRequest->getMethod(),
+            $serverRequest->getUri()->getPath()
+        );
+    }
 
     /**
      * {@inheritDoc}

@@ -1,7 +1,9 @@
+/bin
 /vendor/
 .idea/
 
 # ignore lock file since we have no extra dependencies
 composer.lock
 phpunit.xml
-/.phpunit.result.cache
+.phpunit.result.cache
+.idea

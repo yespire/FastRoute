@@ -15,36 +15,6 @@ use function str_replace;
 class Route implements RouteInterface, ReverseRouteInterface
 {
     /**
-     * @var string
-     */
-    protected string $httpMethod;
-
-    /**
-     * @var string
-     */
-    protected string $regex;
-
-    /**
-     * @var mixed[]
-     */
-    protected array $variables;
-
-    /**
-     * @var mixed
-     */
-    protected $handler;
-
-    /**
-     * @var bool
-     */
-    protected bool $isStatic = false;
-
-    /**
-     * string|null
-     */
-    protected ?string $name;
-
-    /**
      * @var string|null
      */
     protected ?string $template = null;
@@ -57,15 +27,14 @@ class Route implements RouteInterface, ReverseRouteInterface
      * @param bool $isStatic
      * @param string|null $name
      */
-    public function __construct(string $httpMethod, $handler, string $regex, array $variables, bool $isStatic = false, ?string $name = null)
-    {
-        $this->httpMethod = $httpMethod;
-        $this->handler = $handler;
-        $this->regex = $regex;
-        $this->variables = $variables;
-        $this->isStatic = $isStatic;
-        $this->name = $name;
-    }
+    public function __construct(
+        protected string $httpMethod,
+        protected mixed $handler,
+        protected string $regex,
+        protected array $variables,
+        protected bool $isStatic = false,
+        protected ?string $name = null
+    ) {}
 
     /**
      * @param array<mixed, mixed> $vars
@@ -101,6 +70,10 @@ class Route implements RouteInterface, ReverseRouteInterface
             $name = $this->getVarNamesFromRegex($match);
 
             if (isset($vars[$name])) {
+                if (is_int($vars[$name])) {
+                    $vars[$name] = (string)$vars[$name];
+                }
+
                 $link = str_replace($match, $vars[$name], $link);
             }
         }

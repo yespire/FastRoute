@@ -21,7 +21,7 @@ use PhpBench\Benchmark\Metadata\Annotations\Warmup;
  * @Iterations(5)
  * @BeforeMethods({"initializeDispatchers"})
  */
-abstract class Dispatching
+abstract class DispatchingBench
 {
     /**
      * @var \FastRoute\Dispatcher\DispatcherInterface[]

@@ -8,7 +8,7 @@ use FastRoute\Dispatcher\ResultInterface;
 use FastRoute\Factory\SimpleDispatcherFactory;
 use FastRoute\RouteCollection;
 
-final class ManyRoutes extends Dispatching
+final class ManyRoutesBench extends DispatchingBench
 {
     /**
      * {@inheritDoc}

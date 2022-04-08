@@ -6,7 +6,6 @@ namespace FastRoute\DataGenerator;
 
 use FastRoute\Exception\BadRouteException;
 use FastRoute\Route;
-use FastRoute\RouteFactory;
 use FastRoute\RouteFactoryInterface;
 use FastRoute\RouteInterface;
 

@@ -28,7 +28,7 @@ class RouteCollection implements RouteCollectionInterface
     protected string $currentGroupPrefix = '';
 
     /**
-     * @var array<string, array>
+     * @var array<string, array<mixed, mixed>>
      */
     protected array $namedRoutes = [];
 
