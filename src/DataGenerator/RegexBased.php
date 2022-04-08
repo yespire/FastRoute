@@ -37,26 +37,13 @@ class RegexBased implements DataGeneratorInterface
     protected array $methodToRegexToRoutesMap = [];
 
     /**
-     * @var ChunkProcessorInterface
-     */
-    protected ChunkProcessorInterface $chunkProcessor;
-
-    /**
-     * @var \FastRoute\RouteFactoryInterface
-     */
-    protected RouteFactoryInterface $routeFactory;
-
-    /**
      * @param \FastRoute\DataGenerator\ChunkProcessorInterface $chunkProcessor
      * @param \FastRoute\RouteFactoryInterface $routeFactory
      */
     public function __construct(
-        ChunkProcessorInterface $chunkProcessor,
-        RouteFactoryInterface $routeFactory
-    ) {
-        $this->chunkProcessor = $chunkProcessor;
-        $this->routeFactory = $routeFactory;
-    }
+        protected ChunkProcessorInterface $chunkProcessor,
+        protected RouteFactoryInterface $routeFactory
+    ) {}
 
     /**
      * @return int

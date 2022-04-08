@@ -29,7 +29,7 @@ abstract class AbstractRegexBased implements DispatcherInterface
      * @param \FastRoute\Dispatcher\ResultFactoryInterface|null $resultFactory
      */
     public function __construct(
-        $data,
+        mixed $data,
         ?ResultFactoryInterface $resultFactory = null
     ) {
         if ($data instanceof RouteCollectionInterface) {

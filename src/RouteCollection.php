@@ -13,16 +13,6 @@ use FastRoute\RouteParser\RouteParserInterface;
 class RouteCollection implements RouteCollectionInterface
 {
     /**
-     * @var RouteParserInterface
-     */
-    protected RouteParserInterface $routeParser;
-
-    /**
-     * @var DataGeneratorInterface
-     */
-    protected DataGeneratorInterface $dataGenerator;
-
-    /**
      * @var string
      */
     protected string $currentGroupPrefix = '';
@@ -37,12 +27,9 @@ class RouteCollection implements RouteCollectionInterface
      * @param \FastRoute\DataGenerator\DataGeneratorInterface $dataGenerator
      */
     public function __construct(
-        RouteParserInterface $routeParser,
-        DataGeneratorInterface $dataGenerator
-    ) {
-        $this->routeParser = $routeParser;
-        $this->dataGenerator = $dataGenerator;
-    }
+        protected RouteParserInterface $routeParser,
+        protected DataGeneratorInterface $dataGenerator
+    ) {}
 
     /**
      * {@inheritDoc}

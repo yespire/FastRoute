@@ -14,9 +14,6 @@ use function str_replace;
  */
 class Route implements RouteInterface, ReverseRouteInterface
 {
-    /**
-     * @var string|null
-     */
     protected ?string $template = null;
 
     /**
@@ -34,7 +31,8 @@ class Route implements RouteInterface, ReverseRouteInterface
         protected array $variables,
         protected bool $isStatic = false,
         protected ?string $name = null
-    ) {}
+    ) {
+    }
 
     /**
      * @param array<mixed, mixed> $vars
