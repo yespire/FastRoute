@@ -45,6 +45,6 @@ switch ($routeInfo[0]) {
 
 Credits
 -----
-Original Repo: nikic/FastRoute
-Source Repo: burzum/FastRoute : fastroute-ng
+- Original Repo: nikic/FastRoute
+- Source Repo: burzum/FastRoute : fastroute-ng
 
