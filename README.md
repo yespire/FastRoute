@@ -1,7 +1,7 @@
 FastRoute - Forked
 =======================================
 
-nikic/FastRoute => burzum/FastRoute (branch: fastroute-ng) => Current Repo (branch: master)
+nikic/FastRoute  =>  burzum/FastRoute (branch: fastroute-ng)  =>  Current Repo (branch: master)
 
 
 Rationale
@@ -42,4 +42,9 @@ switch ($routeInfo[0]) {
         break;
 }
 ```
+
+Credits
+-----
+Original Repo: nikic/FastRoute
+Source Repo: burzum/FastRoute : fastroute-ng
 
